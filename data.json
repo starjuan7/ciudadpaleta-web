@@ -79,32 +79,8 @@
       "name": "Ferrero Rocher",
       "desc": "Chocolate y avellanas con Ferrero Rocher",
       "cat": "especial",
-      "tag": "",
+      "img": "assets/sabores/ferrero.jpg",
       "color": "#7c2d12",
-      "img": "assets/sabores/ferrero.jpg"
-    },
-    {
-      "name": "Baileys",
-      "desc": "Cremoso con licor Baileys — solo para adultos",
-      "cat": "especial",
-      "tag": "",
-      "color": "#78350f",
-      "img": "assets/sabores/baileys-1778092791668.jpg"
-    },
-    {
-      "name": "Kinder Delice",
-      "desc": "Chocolate y crema con el sabor Kinder Delice",
-      "cat": "especial",
-      "img": "assets/sabores/kinder-delice.jpg",
-      "color": "#7c2d12",
-      "tag": ""
-    },
-    {
-      "name": "Gansito",
-      "desc": "El Gansito Marinela en versión helada",
-      "cat": "especial",
-      "img": "assets/sabores/gansito.jpg",
-      "color": "#9d174d",
       "tag": ""
     },
     {
@@ -117,11 +93,11 @@
     },
     {
       "name": "Kit-Kat",
-      "desc": "Deliciosa crema con crujiente Kit-Kat",
+      "desc": "Chocolate blanco con crujiente Kit-Kat",
       "cat": "especial",
-      "tag": "",
+      "img": "assets/sabores/kit-kat.jpg",
       "color": "#dc2626",
-      "img": "assets/sabores/kit-kat.jpg"
+      "tag": ""
     },
     {
       "name": "Bubulubu",
@@ -137,6 +113,30 @@
       "cat": "especial",
       "img": "assets/sabores/conejo-turin.jpg",
       "color": "#92400e",
+      "tag": ""
+    },
+    {
+      "name": "Baileys",
+      "desc": "Cremoso con licor Baileys — solo para adultos",
+      "cat": "especial",
+      "img": "",
+      "color": "#78350f",
+      "tag": ""
+    },
+    {
+      "name": "Kinder Delice",
+      "desc": "Chocolate y crema con el sabor Kinder Delice",
+      "cat": "especial",
+      "img": "assets/sabores/kinder-delice.jpg",
+      "color": "#7c2d12",
+      "tag": ""
+    },
+    {
+      "name": "Gansito",
+      "desc": "El Gansito Marinela en versión helada",
+      "cat": "especial",
+      "img": "assets/sabores/gansito.jpg",
+      "color": "#9d174d",
       "tag": ""
     },
     {
@@ -207,17 +207,17 @@
       "name": "Coco",
       "desc": "Crema de coco con ralladura natural",
       "cat": "gourmet",
-      "tag": "",
+      "img": "",
       "color": "#f1f5f9",
-      "img": "assets/sabores/coco-1778092813043.jpg"
+      "tag": ""
     },
     {
       "name": "Elote",
       "desc": "El sabor mexicano del elote en paleta",
       "cat": "gourmet",
-      "tag": "",
+      "img": "",
       "color": "#fcd34d",
-      "img": "assets/sabores/elote-1778092824894.jpg"
+      "tag": ""
     },
     {
       "name": "Mazapán",
@@ -301,21 +301,28 @@
     "subtitle": "Llevando el sabor gourmet a más ciudades de México.",
     "lista": [
       {
-        "emoji": "🏛️",
-        "name": "Puebla",
-        "desc": "Plaza activa",
+        "emoji": "📍",
+        "name": "ACAPULCO",
+        "desc": "PLAZA ACTIVA",
         "puntos": []
       },
       {
-        "emoji": "⛰️",
-        "name": "CDMX",
-        "desc": "Plaza activa",
-        "puntos": []
+        "emoji": "📍",
+        "name": "PUEBLA",
+        "desc": "PLAZA ACTIVA",
+        "puntos": [
+          {
+            "name": "",
+            "address": "",
+            "whatsapp": "",
+            "img": ""
+          }
+        ]
       },
       {
-        "emoji": "🚚",
-        "name": "Toda la república",
-        "desc": "Mayoreo",
+        "emoji": "📍",
+        "name": "CHILPANCINGO",
+        "desc": "PLAZA ACTIVA",
         "puntos": []
       }
     ]
@@ -328,7 +335,7 @@
       {
         "emoji": "🍓",
         "title": "Ingredientes Premium",
-        "desc": "Trabajamos con marcas reconocidas como Ferrero, Kit-Kat, Philadelphia y frutas naturales."
+        "desc": "La mejor calidad en lácteos Pastelitos y dulces originales."
       },
       {
         "emoji": "🧑‍🍳",
@@ -338,7 +345,7 @@
       {
         "emoji": "❄️",
         "title": "Selladas y Certificadas",
-        "desc": "Empaque de grado alimenticio, 115–118g cada paleta, listas para vender o regalar."
+        "desc": "Mayor higiene y presentación, empaque de grado alimenticio, 115–118 g cada paleta."
       },
       {
         "emoji": "🚚",
