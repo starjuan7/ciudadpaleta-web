@@ -45,11 +45,11 @@
   "sabores": [
     {
       "name": "Skwinkles",
-      "desc": "El dulce ácido Skwinkles en paleta — el nuevo sabor del mes",
+      "desc": "El dulce ácidito Skwinkles en paleta — el nuevo sabor del mes",
       "cat": "refrescante",
-      "img": "assets/sabores/skwinkles.jpg",
+      "tag": "nuevo",
       "color": "#dc2626",
-      "tag": "nuevo"
+      "img": "assets/sabores/skwinkles.jpg"
     },
     {
       "name": "Philadelphia Mango",
@@ -77,11 +77,11 @@
     },
     {
       "name": "Ferrero Rocher",
-      "desc": "Chocolate y avellanas con Ferrero Rocher",
+      "desc": "Nutella con trocitos de ferrero rocher",
       "cat": "especial",
-      "img": "assets/sabores/ferrero.jpg",
+      "tag": "",
       "color": "#7c2d12",
-      "tag": ""
+      "img": "assets/sabores/ferrero.jpg"
     },
     {
       "name": "Pistache con Nuez",
@@ -93,11 +93,11 @@
     },
     {
       "name": "Kit-Kat",
-      "desc": "Chocolate blanco con crujiente Kit-Kat",
+      "desc": "Deliciosa crema con crujiente Kit-Kat",
       "cat": "especial",
-      "img": "assets/sabores/kit-kat.jpg",
+      "tag": "",
       "color": "#dc2626",
-      "tag": ""
+      "img": "assets/sabores/kit-kat.jpg"
     },
     {
       "name": "Bubulubu",
