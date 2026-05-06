@@ -311,8 +311,15 @@
         "emoji": "📍",
         "name": "PUEBLA",
         "desc": "PLAZA ACTIVA",
-        "puntos": [],
-        "featured": true
+        "puntos": [
+          {
+            "name": "",
+            "address": "",
+            "whatsapp": "",
+            "img": ""
+          }
+        ],
+        "featured": false
       },
       {
         "emoji": "📍",
