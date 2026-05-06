@@ -79,49 +79,17 @@
       "name": "Ferrero Rocher",
       "desc": "Chocolate y avellanas con Ferrero Rocher",
       "cat": "especial",
-      "img": "assets/sabores/ferrero.jpg",
+      "tag": "",
       "color": "#7c2d12",
-      "tag": ""
-    },
-    {
-      "name": "Pistache con Nuez",
-      "desc": "Pistache cremoso con trozos de nuez",
-      "cat": "gourmet",
-      "img": "assets/sabores/pistache-nuez.jpg",
-      "color": "#84cc16",
-      "tag": ""
-    },
-    {
-      "name": "Kit-Kat",
-      "desc": "Chocolate blanco con crujiente Kit-Kat",
-      "cat": "especial",
-      "img": "assets/sabores/kit-kat.jpg",
-      "color": "#dc2626",
-      "tag": ""
-    },
-    {
-      "name": "Bubulubu",
-      "desc": "Fresa y crema con el sabor Bubulubu",
-      "cat": "especial",
-      "img": "assets/sabores/bubulubu.jpg",
-      "color": "#f472b6",
-      "tag": ""
-    },
-    {
-      "name": "Conejo Turín Nesquik",
-      "desc": "Achocolatado con el sabor del Conejo Turín",
-      "cat": "especial",
-      "img": "assets/sabores/conejo-turin.jpg",
-      "color": "#92400e",
-      "tag": ""
+      "img": "assets/sabores/ferrero.jpg"
     },
     {
       "name": "Baileys",
       "desc": "Cremoso con licor Baileys — solo para adultos",
       "cat": "especial",
-      "img": "",
+      "tag": "",
       "color": "#78350f",
-      "tag": ""
+      "img": "assets/sabores/baileys-1778092791668.jpg"
     },
     {
       "name": "Kinder Delice",
@@ -137,6 +105,38 @@
       "cat": "especial",
       "img": "assets/sabores/gansito.jpg",
       "color": "#9d174d",
+      "tag": ""
+    },
+    {
+      "name": "Pistache con Nuez",
+      "desc": "Pistache cremoso con trozos de nuez",
+      "cat": "gourmet",
+      "img": "assets/sabores/pistache-nuez.jpg",
+      "color": "#84cc16",
+      "tag": ""
+    },
+    {
+      "name": "Kit-Kat",
+      "desc": "Deliciosa crema con crujiente Kit-Kat",
+      "cat": "especial",
+      "tag": "",
+      "color": "#dc2626",
+      "img": "assets/sabores/kit-kat.jpg"
+    },
+    {
+      "name": "Bubulubu",
+      "desc": "Fresa y crema con el sabor Bubulubu",
+      "cat": "especial",
+      "img": "assets/sabores/bubulubu.jpg",
+      "color": "#f472b6",
+      "tag": ""
+    },
+    {
+      "name": "Conejo Turín Nesquik",
+      "desc": "Achocolatado con el sabor del Conejo Turín",
+      "cat": "especial",
+      "img": "assets/sabores/conejo-turin.jpg",
+      "color": "#92400e",
       "tag": ""
     },
     {
@@ -207,17 +207,17 @@
       "name": "Coco",
       "desc": "Crema de coco con ralladura natural",
       "cat": "gourmet",
-      "img": "",
+      "tag": "",
       "color": "#f1f5f9",
-      "tag": ""
+      "img": "assets/sabores/coco-1778092813043.jpg"
     },
     {
       "name": "Elote",
       "desc": "El sabor mexicano del elote en paleta",
       "cat": "gourmet",
-      "img": "",
+      "tag": "",
       "color": "#fcd34d",
-      "tag": ""
+      "img": "assets/sabores/elote-1778092824894.jpg"
     },
     {
       "name": "Mazapán",
@@ -301,28 +301,21 @@
     "subtitle": "Llevando el sabor gourmet a más ciudades de México.",
     "lista": [
       {
-        "emoji": "📍",
-        "name": "ACAPULCO",
-        "desc": "PLAZA ACTIVA",
+        "emoji": "🏛️",
+        "name": "Puebla",
+        "desc": "Plaza activa",
         "puntos": []
       },
       {
-        "emoji": "📍",
-        "name": "PUEBLA",
-        "desc": "PLAZA ACTIVA",
-        "puntos": [
-          {
-            "name": "",
-            "address": "",
-            "whatsapp": "",
-            "img": ""
-          }
-        ]
+        "emoji": "⛰️",
+        "name": "CDMX",
+        "desc": "Plaza activa",
+        "puntos": []
       },
       {
-        "emoji": "📍",
-        "name": "CHILPANCINGO",
-        "desc": "PLAZA ACTIVA",
+        "emoji": "🚚",
+        "name": "Toda la república",
+        "desc": "Mayoreo",
         "puntos": []
       }
     ]
