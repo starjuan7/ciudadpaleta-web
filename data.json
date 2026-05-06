@@ -45,11 +45,11 @@
   "sabores": [
     {
       "name": "Skwinkles",
-      "desc": "El dulce ácidito Skwinkles en paleta — el nuevo sabor del mes",
+      "desc": "El dulce ácido Skwinkles en paleta — el nuevo sabor del mes",
       "cat": "refrescante",
-      "tag": "nuevo",
+      "img": "assets/sabores/skwinkles.jpg",
       "color": "#dc2626",
-      "img": "assets/sabores/skwinkles.jpg"
+      "tag": "nuevo"
     },
     {
       "name": "Philadelphia Mango",
@@ -77,11 +77,11 @@
     },
     {
       "name": "Ferrero Rocher",
-      "desc": "Nutella con trocitos de ferrero rocher",
+      "desc": "Chocolate y avellanas con Ferrero Rocher",
       "cat": "especial",
-      "tag": "",
+      "img": "assets/sabores/ferrero.jpg",
       "color": "#7c2d12",
-      "img": "assets/sabores/ferrero.jpg"
+      "tag": ""
     },
     {
       "name": "Pistache con Nuez",
@@ -93,11 +93,11 @@
     },
     {
       "name": "Kit-Kat",
-      "desc": "Deliciosa crema con crujiente Kit-Kat",
+      "desc": "Chocolate blanco con crujiente Kit-Kat",
       "cat": "especial",
-      "tag": "",
+      "img": "assets/sabores/kit-kat.jpg",
       "color": "#dc2626",
-      "img": "assets/sabores/kit-kat.jpg"
+      "tag": ""
     },
     {
       "name": "Bubulubu",
@@ -275,20 +275,20 @@
       {
         "emoji": "🍦",
         "num": "30+",
-        "label": "Para empezar",
-        "desc": "Mejora de Precio"
+        "label": "Menudeo",
+        "desc": "desde 30 piezas"
       },
       {
         "emoji": "🍨",
         "num": "100+",
-        "label": "Mayoreo",
-        "desc": "Precio Especial"
+        "label": "Medio",
+        "desc": "precio especial"
       },
       {
         "emoji": "📦",
         "num": "200+",
-        "label": "Volumen",
-        "desc": "Super Precio"
+        "label": "Mayoreo",
+        "desc": "mejor precio"
       }
     ],
     "nota": "💬 Cotiza tu pedido por WhatsApp y te damos el mejor precio según volumen y sabor",
@@ -306,14 +306,14 @@
         "desc": "Plaza activa"
       },
       {
-        "emoji": "⛰️",
-        "name": "CDMX",
+        "emoji": "📍",
+        "name": "Acapulco",
         "desc": "Plaza activa"
       },
       {
-        "emoji": "🚚",
-        "name": "Toda la república",
-        "desc": "Mayoreo"
+        "emoji": "📍",
+        "name": "Chilpancingo",
+        "desc": "Plaza Activa"
       }
     ]
   },
