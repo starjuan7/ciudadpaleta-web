@@ -304,20 +304,15 @@
         "emoji": "📍",
         "name": "ACAPULCO",
         "desc": "PLAZA ACTIVA",
-        "puntos": []
+        "puntos": [],
+        "featured": true
       },
       {
         "emoji": "📍",
         "name": "PUEBLA",
         "desc": "PLAZA ACTIVA",
-        "puntos": [
-          {
-            "name": "",
-            "address": "",
-            "whatsapp": "",
-            "img": ""
-          }
-        ]
+        "puntos": [],
+        "featured": true
       },
       {
         "emoji": "📍",
