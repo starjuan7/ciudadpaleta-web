@@ -133,25 +133,21 @@
         </div>
         <div class="card">
           <h3><span class="em">🏪</span> Sección Mayoreo</h3>
-          <div class="field"><label>Etiqueta</label><input type="text" id="mayTag" oninput="markDirty()"></div>
-          <div class="field-row">
-            <div class="field"><label>Título</label><input type="text" id="mayTitle" oninput="markDirty()"></div>
-            <div class="field"><label>Acento</label><input type="text" id="mayAccent" oninput="markDirty()"></div>
-          </div>
+          <div class="field"><label>Título</label><input type="text" id="mayTitle" oninput="markDirty()"></div>
           <div class="field"><label>Subtítulo</label><textarea id="maySub" oninput="markDirty()"></textarea></div>
-          <div class="field"><label>Nota de precios</label><input type="text" id="mayNote" oninput="markDirty()"></div>
+          <div class="field"><label>Nota</label><input type="text" id="mayNote" oninput="markDirty()"></div>
+          <div class="field"><label>Botón CTA</label><input type="text" id="mayCta" oninput="markDirty()"></div>
           <h3 style="margin-top:18px;"><span class="em">📦</span> Rangos de precio</h3>
           <div id="rangosList"></div>
         </div>
         <div class="card">
-          <h3><span class="em">👋</span> ¿Quiénes somos?</h3>
-          <div class="field"><label>Etiqueta</label><input type="text" id="qsTag" oninput="markDirty()"></div>
+          <h3><span class="em">⭐</span> ¿Por qué Ciudad Paleta?</h3>
+          <div class="field"><label>Etiqueta</label><input type="text" id="pqTag" oninput="markDirty()"></div>
           <div class="field-row">
-            <div class="field"><label>Título</label><input type="text" id="qsTitle" oninput="markDirty()"></div>
-            <div class="field"><label>Acento</label><input type="text" id="qsAccent" oninput="markDirty()"></div>
+            <div class="field"><label>Título</label><input type="text" id="pqTitle" oninput="markDirty()"></div>
+            <div class="field"><label>Acento</label><input type="text" id="pqAccent" oninput="markDirty()"></div>
           </div>
-          <div class="field"><label>Párrafo 1</label><textarea id="qsP1" oninput="markDirty()"></textarea></div>
-          <div class="field"><label>Párrafo 2</label><textarea id="qsP2" oninput="markDirty()"></textarea></div>
+          <div id="featuresList"></div>
         </div>
       </section>
 
@@ -162,6 +158,16 @@
           <p>Agrega o quita las ciudades donde tienes presencia.</p>
         </div>
         <div class="card">
+          <h3><span class="em">📝</span> Encabezado</h3>
+          <div class="field"><label>Etiqueta</label><input type="text" id="ciuTag" oninput="markDirty()"></div>
+          <div class="field-row">
+            <div class="field"><label>Título</label><input type="text" id="ciuTitle" oninput="markDirty()"></div>
+            <div class="field"><label>Acento</label><input type="text" id="ciuAccent" oninput="markDirty()"></div>
+          </div>
+          <div class="field"><label>Subtítulo</label><textarea id="ciuSub" oninput="markDirty()"></textarea></div>
+        </div>
+        <div class="card">
+          <h3><span class="em">🏙️</span> Lista de ciudades</h3>
           <div id="ciudadesList"></div>
           <button class="add-btn" onclick="addCiudad()">➕ Agregar ciudad</button>
         </div>
@@ -174,9 +180,16 @@
           <p>Datos que aparecen en todo el sitio.</p>
         </div>
         <div class="card">
-          <div class="field"><label>WhatsApp (con lada, sin +)</label><input type="text" id="ctWa" placeholder="522241250998" oninput="markDirty()"><div class="hint">Ejemplo: <code>522241250998</code> (52 = México, 224 = lada Atlixco)</div></div>
+          <h3><span class="em">📱</span> Datos de contacto</h3>
+          <div class="field"><label>WhatsApp (con lada, sin +)</label><input type="text" id="ctWa" placeholder="522241250998" oninput="markDirty()"><div class="hint">Ejemplo: <code>522241250998</code></div></div>
           <div class="field"><label>Instagram (URL)</label><input type="url" id="ctIg" placeholder="https://instagram.com/..." oninput="markDirty()"></div>
           <div class="field"><label>Facebook (URL)</label><input type="url" id="ctFb" placeholder="https://facebook.com/..." oninput="markDirty()"></div>
+        </div>
+        <div class="card">
+          <h3><span class="em">💬</span> Sección de contacto del sitio</h3>
+          <div class="field"><label>Título</label><input type="text" id="coTitle" oninput="markDirty()"></div>
+          <div class="field"><label>Subtítulo</label><textarea id="coSub" oninput="markDirty()"></textarea></div>
+          <div class="field"><label>Botón CTA</label><input type="text" id="coCta" oninput="markDirty()"></div>
         </div>
       </section>
 
