@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin · Ciudad Paleta</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ==================== LOGIN ==================== -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="logo-wrap"><img src="assets/logo.png" alt="Ciudad Paleta"></div>
+    <h1>Panel de Admin</h1>
+    <div class="sub">Ciudad Paleta · Helados Gourmet</div>
+    <form id="loginForm" onsubmit="return doLogin(event)">
+      <div class="form-group">
+        <label>Usuario</label>
+        <input type="text" id="loginUser" autocomplete="username" required autofocus>
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="loginPass" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn-login" id="loginBtn">Entrar</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+    <div class="login-foot">🔒 Panel privado · Sesión 2 horas</div>
+  </div>
+</div>
+
+<!-- ==================== APP ==================== -->
+<div class="app" id="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <img src="assets/logo.png" alt="">
+      <div><div class="nm">Ciudad Paleta</div><div class="sub">Admin</div></div>
+    </div>
+    <nav class="sb-nav" id="sbNav">
+      <a href="#" data-tab="sabores" class="active"><span class="ic">🍭</span>Sabores</a>
+      <a href="#" data-tab="hero"><span class="ic">⭐</span>Hero</a>
+      <a href="#" data-tab="textos"><span class="ic">📝</span>Textos</a>
+      <a href="#" data-tab="ciudades"><span class="ic">📍</span>Ciudades</a>
+      <a href="#" data-tab="contacto"><span class="ic">📞</span>Contacto</a>
+      <a href="#" data-tab="ajustes"><span class="ic">⚙️</span>Ajustes</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="btn-logout" onclick="doLogout()">Cerrar sesión</button>
+      <div class="sb-foot">v1.0 · <a href="index.html" target="_blank" style="color:white;opacity:.7;">Ver sitio →</a></div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="top-bar">
+      <h2 id="topTitle">Sabores</h2>
+      <div class="top-actions">
+        <span id="dirtyIndicator" style="display:none;font-size:.8rem;color:var(--warn);font-weight:700;"><span class="dirty-dot"></span>Cambios sin publicar</span>
+        <button class="btn btn-ghost" onclick="window.open('index.html','_blank')">👁️ Ver sitio</button>
+        <button class="btn btn-primary" id="publishBtn" onclick="openPublish()">🚀 Publicar cambios</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ===== SABORES ===== -->
+      <section class="section active" id="sec-sabores">
+        <div class="section-header">
+          <h1>🍭 Sabores</h1>
+          <p>Agrega, edita o elimina sabores. Las fotos se suben en formato comprimido automáticamente.</p>
+        </div>
+        <div class="sabores-toolbar">
+          <input type="search" class="search-input" id="searchSabor" name="search-sabor-cp" placeholder="Buscar sabor..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" oninput="renderSabores()">
+          <select class="filtro-select" id="filterCat" onchange="renderSabores()">
+            <option value="all">Todas las categorías</option>
+            <option value="gourmet">Gourmet</option>
+            <option value="especial">Especial</option>
+            <option value="ligera">Ligera</option>
+            <option value="refrescante">Refrescante</option>
+          </select>
+          <button class="btn btn-primary" onclick="openSaborModal()">➕ Nuevo sabor</button>
+        </div>
+        <div id="saboresList"></div>
+      </section>
+
+      <!-- ===== HERO ===== -->
+      <section class="section" id="sec-hero">
+        <div class="section-header">
+          <h1>⭐ Sección Hero</h1>
+          <p>El primer bloque que ven los visitantes al entrar al sitio.</p>
+        </div>
+        <div class="card">
+          <h3><span class="em">📝</span> Títulos y textos</h3>
+          <div class="field-row">
+            <div class="field"><label>Título principal</label><input type="text" id="heroMain" oninput="markDirty()"></div>
+            <div class="field"><label>Título acento</label><input type="text" id="heroAccent" oninput="markDirty()"></div>
+          </div>
+          <div class="field"><label>Subtítulo</label><input type="text" id="heroSub" oninput="markDirty()"></div>
+          <div class="field"><label>Slogan</label><input type="text" id="heroSlogan" oninput="markDirty()"></div>
+          <div class="field-row">
+            <div class="field"><label>Botón principal</label><input type="text" id="heroCta1" oninput="markDirty()"></div>
+            <div class="field"><label>Botón secundario</label><input type="text" id="heroCta2" oninput="markDirty()"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3><span class="em">📊</span> Estadísticas (4 números del hero)</h3>
+          <div id="statsList"></div>
+        </div>
+      </section>
+
+      <!-- ===== TEXTOS ===== -->
+      <section class="section" id="sec-textos">
+        <div class="section-header">
+          <h1>📝 Textos del sitio</h1>
+          <p>Edita el contenido de las secciones principales.</p>
+        </div>
+        <div class="card">
+          <h3><span class="em">🍭</span> Sección Sabores</h3>
+          <div class="field"><label>Etiqueta</label><input type="text" id="sabSecTag" oninput="markDirty()"></div>
+          <div class="field-row">
+            <div class="field"><label>Título</label><input type="text" id="sabSecTitle" oninput="markDirty()"></div>
+            <div class="field"><label>Acento</label><input type="text" id="sabSecAccent" oninput="markDirty()"></div>
+          </div>
+          <div class="field"><label>Subtítulo</label><textarea id="sabSecSub" oninput="markDirty()"></textarea></div>
+        </div>
+        <div class="card">
+          <h3><span class="em">💎</span> ¿Por qué elegirnos?</h3>
+          <div id="featuresList"></div>
+        </div>
+        <div class="card">
+          <h3><span class="em">🏪</span> Sección Mayoreo</h3>
+          <div class="field"><label>Título</label><input type="text" id="mayTitle" oninput="markDirty()"></div>
+          <div class="field"><label>Subtítulo</label><textarea id="maySub" oninput="markDirty()"></textarea></div>
+          <div class="field"><label>Nota</label><input type="text" id="mayNote" oninput="markDirty()"></div>
+          <div class="field"><label>Botón CTA</label><input type="text" id="mayCta" oninput="markDirty()"></div>
+          <h3 style="margin-top:18px;"><span class="em">📦</span> Rangos de precio</h3>
+          <div id="rangosList"></div>
+        </div>
+        <div class="card">
+          <h3><span class="em">⭐</span> ¿Por qué Ciudad Paleta?</h3>
+          <div class="field"><label>Etiqueta</label><input type="text" id="pqTag" oninput="markDirty()"></div>
+          <div class="field-row">
+            <div class="field"><label>Título</label><input type="text" id="pqTitle" oninput="markDirty()"></div>
+            <div class="field"><label>Acento</label><input type="text" id="pqAccent" oninput="markDirty()"></div>
+          </div>
+          <div id="featuresList"></div>
+        </div>
+      </section>
+
+      <!-- ===== CIUDADES ===== -->
+      <section class="section" id="sec-ciudades">
+        <div class="section-header">
+          <h1>📍 Ciudades de cobertura</h1>
+          <p>Agrega o quita las ciudades donde tienes presencia.</p>
+        </div>
+        <div class="card">
+          <h3><span class="em">📝</span> Encabezado</h3>
+          <div class="field"><label>Etiqueta</label><input type="text" id="ciuTag" oninput="markDirty()"></div>
+          <div class="field-row">
+            <div class="field"><label>Título</label><input type="text" id="ciuTitle" oninput="markDirty()"></div>
+            <div class="field"><label>Acento</label><input type="text" id="ciuAccent" oninput="markDirty()"></div>
+          </div>
+          <div class="field"><label>Subtítulo</label><textarea id="ciuSub" oninput="markDirty()"></textarea></div>
+        </div>
+        <div class="card">
+          <h3><span class="em">🏙️</span> Lista de ciudades</h3>
+          <div id="ciudadesList"></div>
+          <button class="add-btn" onclick="addCiudad()">➕ Agregar ciudad</button>
+        </div>
+      </section>
+
+      <!-- ===== CONTACTO ===== -->
+      <section class="section" id="sec-contacto">
+        <div class="section-header">
+          <h1>📞 Contacto y Redes Sociales</h1>
+          <p>Datos que aparecen en todo el sitio.</p>
+        </div>
+        <div class="card">
+          <h3><span class="em">📱</span> Datos de contacto</h3>
+          <div class="field"><label>WhatsApp (con lada, sin +)</label><input type="text" id="ctWa" placeholder="522241250998" oninput="markDirty()"><div class="hint">Ejemplo: <code>522241250998</code></div></div>
+          <div class="field"><label>Instagram (URL)</label><input type="url" id="ctIg" placeholder="https://instagram.com/..." oninput="markDirty()"></div>
+          <div class="field"><label>Facebook (URL)</label><input type="url" id="ctFb" placeholder="https://facebook.com/..." oninput="markDirty()"></div>
+        </div>
+        <div class="card">
+          <h3><span class="em">💬</span> Sección de contacto del sitio</h3>
+          <div class="field"><label>Título</label><input type="text" id="coTitle" oninput="markDirty()"></div>
+          <div class="field"><label>Subtítulo</label><textarea id="coSub" oninput="markDirty()"></textarea></div>
+          <div class="field"><label>Botón CTA</label><input type="text" id="coCta" oninput="markDirty()"></div>
+        </div>
+      </section>
+
+      <!-- ===== AJUSTES ===== -->
+      <section class="section" id="sec-ajustes">
+        <div class="section-header">
+          <h1>⚙️ Ajustes</h1>
+          <p>Configuración técnica del panel.</p>
+        </div>
+        <div class="card">
+          <h3><span class="em">🔑</span> Token de GitHub</h3>
+          <div class="token-setup">
+            <h4>¿Cómo generar tu token?</h4>
+            <ol>
+              <li>Ve a <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a></li>
+              <li>Clic en <strong>"Generate new token"</strong> → <strong>"Fine-grained"</strong></li>
+              <li>Nombre: <code>ciudadpaleta-admin</code></li>
+              <li>Expiration: <code>1 año</code> (o más)</li>
+              <li>Repository access: <strong>Only select repositories</strong> → tu repo</li>
+              <li>Permissions → Repository → <strong>Contents: Read and write</strong></li>
+              <li>Generate → copia el token (solo se ve 1 vez)</li>
+            </ol>
+          </div>
+          <div class="field"><label>Token</label><input type="password" id="ghToken" placeholder="github_pat_..." oninput="saveToken()"><div class="hint">🔒 Se guarda solo en TU navegador (encrypted localStorage). Nunca se sube a internet.</div></div>
+          <div class="field-row">
+            <div class="field"><label>Usuario de GitHub</label><input type="text" id="ghUser" placeholder="tu-usuario" oninput="saveToken()"></div>
+            <div class="field"><label>Repositorio</label><input type="text" id="ghRepo" placeholder="ciudadpaleta" oninput="saveToken()"></div>
+          </div>
+          <div class="field"><label>Rama (branch)</label><input type="text" id="ghBranch" placeholder="main" value="main" oninput="saveToken()"></div>
+          <button class="btn btn-ghost" onclick="testGitHub()">🧪 Probar conexión</button>
+        </div>
+
+        <div class="card">
+          <h3><span class="em">🔐</span> Cambiar contraseña</h3>
+          <div class="field"><label>Contraseña actual</label><input type="password" id="pwOld"></div>
+          <div class="field-row">
+            <div class="field"><label>Nueva contraseña</label><input type="password" id="pwNew"></div>
+            <div class="field"><label>Confirmar</label><input type="password" id="pwNew2"></div>
+          </div>
+          <button class="btn btn-primary" onclick="changePassword()">Cambiar contraseña</button>
+        </div>
+
+        <div class="card">
+          <h3><span class="em">⚠️</span> Acciones peligrosas</h3>
+          <p style="font-size:.85rem;color:var(--mute);margin-bottom:12px;">Estas acciones NO se pueden deshacer.</p>
+          <button class="btn btn-danger" onclick="resetLocal()">🗑️ Descartar cambios locales</button>
+          <button class="btn btn-ghost" onclick="downloadBackup()" style="margin-left:8px;">💾 Descargar backup JSON</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ==================== MODAL: SABOR ==================== -->
+<div class="modal-back" id="saborModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Nuevo sabor</h3>
+      <button class="modal-close" onclick="closeSaborModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="img-upload" id="imgDrop" onclick="document.getElementById('imgFile').click()">
+        <input type="file" id="imgFile" accept="image/*" onchange="handleImgFile(event)">
+        <div id="imgPreviewWrap">
+          <div class="ph">📸</div>
+          <div class="txt"><strong>Clic para subir foto</strong> o arrastra aquí<br><span style="font-size:.75rem;">JPG/PNG · se comprime automático</span></div>
+        </div>
+      </div>
+      <div class="field" style="margin-top:14px;"><label>Nombre del sabor</label><input type="text" id="modName"></div>
+      <div class="field"><label>Descripción</label><textarea id="modDesc"></textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Categoría</label>
+          <select id="modCat">
+            <option value="gourmet">Gourmet</option>
+            <option value="especial">Especial</option>
+            <option value="ligera">Ligera</option>
+            <option value="refrescante">Refrescante</option>
+          </select>
+        </div>
+        <div class="field"><label>Etiqueta especial</label>
+          <select id="modTag">
+            <option value="">Ninguna</option>
+            <option value="nuevo">✨ NUEVO (sabor del mes)</option>
+            <option value="temporada">⏳ TEMPORADA</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Color decorativo (placeholder si no hay foto)</label><input type="text" id="modColor" placeholder="#dc2626"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeSaborModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveSabor()">Guardar sabor</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODAL: PUBLICAR ==================== -->
+<div class="modal-back" id="publishModal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-head">
+      <h3>🚀 Publicar cambios</h3>
+      <button class="modal-close" onclick="closePublish()" id="pubCloseBtn">✕</button>
+    </div>
+    <div class="modal-body" id="publishBody">
+      <p style="margin-bottom:14px;color:var(--mute);font-size:.9rem;">Esto subirá tus cambios a GitHub. El sitio se actualizará en <strong>1-2 minutos</strong>.</p>
+      <div class="field"><label>Mensaje del cambio (opcional)</label><input type="text" id="commitMsg" placeholder="Ej: Agregué sabor Skwinkles"></div>
+      <div id="publishStats" style="background:#f9fafb;border-radius:10px;padding:12px;font-size:.85rem;color:var(--mute);"></div>
+    </div>
+    <div class="modal-foot" id="pubFoot">
+      <button class="btn btn-ghost" onclick="closePublish()">Cancelar</button>
+      <button class="btn btn-primary" onclick="doPublish()" id="pubGoBtn">🚀 Publicar ahora</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>
