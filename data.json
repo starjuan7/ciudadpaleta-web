@@ -84,20 +84,28 @@
       "tag": ""
     },
     {
-      "name": "Pistache con Nuez",
-      "desc": "Pistache cremoso con trozos de nuez",
-      "cat": "gourmet",
-      "img": "assets/sabores/pistache-nuez.jpg",
-      "color": "#84cc16",
+      "name": "Kinder Delice",
+      "desc": "Chocolate y crema con el sabor Kinder Delice",
+      "cat": "especial",
+      "img": "assets/sabores/kinder-delice.jpg",
+      "color": "#7c2d12",
+      "tag": ""
+    },
+    {
+      "name": "Gansito",
+      "desc": "El Gansito Marinela en versión helada",
+      "cat": "especial",
+      "img": "assets/sabores/gansito.jpg",
+      "color": "#9d174d",
       "tag": ""
     },
     {
       "name": "Kit-Kat",
-      "desc": "Chocolate blanco con crujiente Kit-Kat",
+      "desc": "Deliciosa crema con crujiente Kit-Kat",
       "cat": "especial",
-      "img": "assets/sabores/kit-kat.jpg",
+      "tag": "",
       "color": "#dc2626",
-      "tag": ""
+      "img": "assets/sabores/kit-kat.jpg"
     },
     {
       "name": "Bubulubu",
@@ -119,24 +127,16 @@
       "name": "Baileys",
       "desc": "Cremoso con licor Baileys — solo para adultos",
       "cat": "especial",
-      "img": "",
+      "tag": "",
       "color": "#78350f",
-      "tag": ""
+      "img": "assets/sabores/baileys-1778096161230.jpg"
     },
     {
-      "name": "Kinder Delice",
-      "desc": "Chocolate y crema con el sabor Kinder Delice",
-      "cat": "especial",
-      "img": "assets/sabores/kinder-delice.jpg",
-      "color": "#7c2d12",
-      "tag": ""
-    },
-    {
-      "name": "Gansito",
-      "desc": "El Gansito Marinela en versión helada",
-      "cat": "especial",
-      "img": "assets/sabores/gansito.jpg",
-      "color": "#9d174d",
+      "name": "Pistache con Nuez",
+      "desc": "Pistache cremoso con trozos de nuez",
+      "cat": "gourmet",
+      "img": "assets/sabores/pistache-nuez.jpg",
+      "color": "#84cc16",
       "tag": ""
     },
     {
@@ -207,17 +207,17 @@
       "name": "Coco",
       "desc": "Crema de coco con ralladura natural",
       "cat": "gourmet",
-      "img": "",
+      "tag": "",
       "color": "#f1f5f9",
-      "tag": ""
+      "img": "assets/sabores/coco-1778096176248.jpg"
     },
     {
       "name": "Elote",
       "desc": "El sabor mexicano del elote en paleta",
       "cat": "gourmet",
-      "img": "",
+      "tag": "",
       "color": "#fcd34d",
-      "tag": ""
+      "img": "assets/sabores/elote-1778096185108.jpg"
     },
     {
       "name": "Mazapán",
