@@ -3,7 +3,7 @@
     "title": "Ciudad Paleta – Helados Gourmet",
     "whatsapp": "522241250998",
     "instagram": "https://www.instagram.com/ciudadpaleta",
-    "facebook": "https://www.facebook.com/ciudadpaleta"
+    "facebook": "https://www.facebook.com/CiudadPaletaGourmet"
   },
   "hero": {
     "title_main": "Ciudad",
@@ -79,9 +79,9 @@
       "name": "Ferrero Rocher",
       "desc": "Chocolate y avellanas con Ferrero Rocher",
       "cat": "especial",
-      "img": "assets/sabores/ferrero.jpg",
+      "tag": "",
       "color": "#7c2d12",
-      "tag": ""
+      "img": "assets/sabores/ferrero.jpg"
     },
     {
       "name": "Pistache con Nuez",
@@ -93,11 +93,11 @@
     },
     {
       "name": "Kit-Kat",
-      "desc": "Chocolate blanco con crujiente Kit-Kat",
+      "desc": "Deliciosa crema con crujiente Kit-Kat",
       "cat": "especial",
-      "img": "assets/sabores/kit-kat.jpg",
+      "tag": "",
       "color": "#dc2626",
-      "tag": ""
+      "img": "assets/sabores/kit-kat.jpg"
     },
     {
       "name": "Bubulubu",
@@ -119,9 +119,9 @@
       "name": "Baileys",
       "desc": "Cremoso con licor Baileys — solo para adultos",
       "cat": "especial",
-      "img": "",
+      "tag": "",
       "color": "#78350f",
-      "tag": ""
+      "img": "assets/sabores/baileys-1778092791668.jpg"
     },
     {
       "name": "Kinder Delice",
@@ -207,17 +207,17 @@
       "name": "Coco",
       "desc": "Crema de coco con ralladura natural",
       "cat": "gourmet",
-      "img": "",
+      "tag": "",
       "color": "#f1f5f9",
-      "tag": ""
+      "img": "assets/sabores/coco-1778092813043.jpg"
     },
     {
       "name": "Elote",
       "desc": "El sabor mexicano del elote en paleta",
       "cat": "gourmet",
-      "img": "",
+      "tag": "",
       "color": "#fcd34d",
-      "tag": ""
+      "img": "assets/sabores/elote-1778092824894.jpg"
     },
     {
       "name": "Mazapán",
