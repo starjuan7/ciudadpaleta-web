@@ -1,0 +1,97 @@
+{
+  "site": {
+    "title": "Ciudad Paleta – Helados Gourmet",
+    "whatsapp": "522241250998",
+    "instagram": "https://www.instagram.com/ciudadpaleta",
+    "facebook": "https://www.facebook.com/ciudadpaleta"
+  },
+  "hero": {
+    "title_main": "Ciudad",
+    "title_accent": "Paleta",
+    "subtitle": "Helados Gourmet",
+    "slogan": "Hacemos de lo Rico, ¡Delicioso!",
+    "cta_primary": "🍭 Ver Sabores",
+    "cta_secondary": "📦 Pedir Mayoreo",
+    "scroll_text": "Descubre nuestros sabores"
+  },
+  "stats": [
+    {"num": 28, "suffix": "", "label": "Sabores únicos"},
+    {"num": 100, "suffix": "%", "label": "Artesanal Gourmet"},
+    {"num": 2, "suffix": "", "label": "Plazas activas"},
+    {"num": 115, "suffix": "g", "label": "Por paleta"}
+  ],
+  "sabores_section": {
+    "tag": "🍭 Catálogo",
+    "title": "Nuestros sabores ",
+    "title_accent": "gourmet",
+    "subtitle": "Cada paleta es una experiencia única, elaborada con los mejores ingredientes y mucho cariño."
+  },
+  "sabores": [
+    {"name": "Skwinkles", "desc": "El dulce ácido Skwinkles en paleta — el nuevo sabor del mes", "cat": "refrescante", "img": "assets/sabores/skwinkles.jpg", "color": "#dc2626", "tag": "nuevo"},
+    {"name": "Philadelphia Mango", "desc": "Queso crema Philadelphia con mango natural — el hit de temporada", "cat": "gourmet", "img": "assets/sabores/philadelphia-mango.jpg", "color": "#fb923c", "tag": "temporada"},
+    {"name": "Mangonada", "desc": "Mango con chamoy, sabor mexicano por excelencia", "cat": "refrescante", "img": "assets/sabores/mangonada.jpg", "color": "#f97316", "tag": "temporada"},
+    {"name": "Pulparindo Mango", "desc": "Mango con el sabor del clásico Pulparindo", "cat": "refrescante", "img": "assets/sabores/pulparindo-mango.jpg", "color": "#b91c1c", "tag": "temporada"},
+    {"name": "Ferrero Rocher", "desc": "Chocolate y avellanas con Ferrero Rocher", "cat": "especial", "img": "assets/sabores/ferrero.jpg", "color": "#7c2d12", "tag": ""},
+    {"name": "Pistache con Nuez", "desc": "Pistache cremoso con trozos de nuez", "cat": "gourmet", "img": "assets/sabores/pistache-nuez.jpg", "color": "#84cc16", "tag": ""},
+    {"name": "Kit-Kat", "desc": "Chocolate blanco con crujiente Kit-Kat", "cat": "especial", "img": "assets/sabores/kit-kat.jpg", "color": "#dc2626", "tag": ""},
+    {"name": "Bubulubu", "desc": "Fresa y crema con el sabor Bubulubu", "cat": "especial", "img": "assets/sabores/bubulubu.jpg", "color": "#f472b6", "tag": ""},
+    {"name": "Conejo Turín Nesquik", "desc": "Achocolatado con el sabor del Conejo Turín", "cat": "especial", "img": "assets/sabores/conejo-turin.jpg", "color": "#92400e", "tag": ""},
+    {"name": "Baileys", "desc": "Cremoso con licor Baileys — solo para adultos", "cat": "especial", "img": "", "color": "#78350f", "tag": ""},
+    {"name": "Kinder Delice", "desc": "Chocolate y crema con el sabor Kinder Delice", "cat": "especial", "img": "assets/sabores/kinder-delice.jpg", "color": "#7c2d12", "tag": ""},
+    {"name": "Gansito", "desc": "El Gansito Marinela en versión helada", "cat": "especial", "img": "assets/sabores/gansito.jpg", "color": "#9d174d", "tag": ""},
+    {"name": "Fresa Rellena Lechera", "desc": "Fresa natural rellena de leche condensada", "cat": "especial", "img": "assets/sabores/fresa-rellena.jpg", "color": "#fb7185", "tag": ""},
+    {"name": "Acapulqueña", "desc": "Coco con maracuyá — sabor tropical inspirado en Acapulco", "cat": "gourmet", "img": "assets/sabores/acapulquena.jpg", "color": "#fbbf24", "tag": ""},
+    {"name": "Carlos V", "desc": "Chocolate con el sabor icónico del Carlos V", "cat": "gourmet", "img": "assets/sabores/carlos-v.jpg", "color": "#78350f", "tag": ""},
+    {"name": "Yogurt de Fresa", "desc": "Yogurt cremoso con fresas frescas naturales", "cat": "gourmet", "img": "assets/sabores/yogurt-fresa.jpg", "color": "#fda4af", "tag": ""},
+    {"name": "Piña Colada", "desc": "Tropical y cremosa con piña y coco", "cat": "gourmet", "img": "assets/sabores/pina-colada.jpg", "color": "#fde68a", "tag": ""},
+    {"name": "Cookies & Cream", "desc": "Galleta Oreo con crema, el favorito de todos", "cat": "gourmet", "img": "assets/sabores/cookies-cream.jpg", "color": "#3f3f46", "tag": ""},
+    {"name": "Cheesecake de Fresa", "desc": "Cremoso cheesecake con fresas frescas", "cat": "gourmet", "img": "assets/sabores/cheesecake-fresa.jpg", "color": "#fda4af", "tag": ""},
+    {"name": "Nutella Philadelphia", "desc": "Queso crema con Nutella, irresistible", "cat": "gourmet", "img": "assets/sabores/nutella-philadelphia.jpg", "color": "#451a03", "tag": ""},
+    {"name": "Coco", "desc": "Crema de coco con ralladura natural", "cat": "gourmet", "img": "", "color": "#f1f5f9", "tag": ""},
+    {"name": "Elote", "desc": "El sabor mexicano del elote en paleta", "cat": "gourmet", "img": "", "color": "#fcd34d", "tag": ""},
+    {"name": "Mazapán", "desc": "El dulce De la Rosa convertido en paleta", "cat": "gourmet", "img": "assets/sabores/mazapan.jpg", "color": "#fcd34d", "tag": ""},
+    {"name": "Maracuyá Naranja", "desc": "Cítrica combinación de maracuyá y naranja", "cat": "refrescante", "img": "assets/sabores/maracuya-naranja.jpg", "color": "#f59e0b", "tag": ""},
+    {"name": "Picafresa", "desc": "Fresa con chile piquín, dulce y picosita", "cat": "refrescante", "img": "assets/sabores/picafresa.jpg", "color": "#e11d48", "tag": ""},
+    {"name": "Pepino Limón", "desc": "Pepino fresco con limón, súper refrescante", "cat": "refrescante", "img": "assets/sabores/pepino-limon.jpg", "color": "#a3e635", "tag": ""},
+    {"name": "Frutos Rojos (Splenda)", "desc": "Mix de frutos rojos naturales — endulzado con Splenda", "cat": "ligera", "img": "assets/sabores/frutos-rojos.jpg", "color": "#be123c", "tag": ""},
+    {"name": "Blueberries Yogurt Griego (Splenda)", "desc": "Yogurt griego con blueberries — endulzado con Splenda", "cat": "ligera", "img": "assets/sabores/blueberries-yogurt.jpg", "color": "#a78bfa", "tag": ""}
+  ],
+  "mayoreo": {
+    "title": "🧊 Pedidos de Mayoreo",
+    "subtitle": "Ideal para eventos, reuniones, fiestas y negocios. Precios especiales por volumen disponibles en toda la república.",
+    "rangos": [
+      {"emoji": "🍦", "num": "30+", "label": "Menudeo", "desc": "desde 30 piezas"},
+      {"emoji": "🍨", "num": "100+", "label": "Medio", "desc": "precio especial"},
+      {"emoji": "📦", "num": "200+", "label": "Mayoreo", "desc": "mejor precio"}
+    ],
+    "nota": "💬 Cotiza tu pedido por WhatsApp y te damos el mejor precio según volumen y sabor",
+    "cta": "💬 Cotizar por WhatsApp"
+  },
+  "ciudades": {
+    "tag": "📍 Presencia",
+    "title": "¿Dónde ",
+    "title_accent": "estamos",
+    "subtitle": "Llevando el sabor gourmet a más ciudades de México.",
+    "lista": [
+      {"emoji": "🏛️", "name": "Puebla", "desc": "Plaza activa"},
+      {"emoji": "⛰️", "name": "CDMX", "desc": "Plaza activa"},
+      {"emoji": "🚚", "name": "Toda la república", "desc": "Mayoreo"}
+    ]
+  },
+  "porque": {
+    "tag": "⭐ Nosotros",
+    "title": "¿Por qué ",
+    "title_accent": "Ciudad Paleta",
+    "items": [
+      {"emoji": "🍓", "title": "Ingredientes Premium", "desc": "Trabajamos con marcas reconocidas como Ferrero, Kit-Kat, Philadelphia y frutas naturales."},
+      {"emoji": "🧑‍🍳", "title": "Elaboración Artesanal", "desc": "Cada paleta se fabrica con cuidado en moldes propios garantizando calidad en cada pieza."},
+      {"emoji": "❄️", "title": "Selladas y Certificadas", "desc": "Empaque de grado alimenticio, 115–118g cada paleta, listas para vender o regalar."},
+      {"emoji": "🚚", "title": "Entrega en Mayoreo", "desc": "Desde 30 piezas con precios especiales por volumen para revendedores y eventos."}
+    ]
+  },
+  "contacto": {
+    "title": "🍦 ¡Haz tu pedido ahora!",
+    "subtitle": "Contáctanos por WhatsApp y te damos precio especial para tu pedido de mayoreo. ¡Respondemos rápido!",
+    "cta": "💬 WhatsApp directo"
+  }
+}
