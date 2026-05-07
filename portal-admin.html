@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Panel Admin – Ciudad Paleta</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --pk:#db2777;--pk2:#9d174d;--pk3:#fce7f3;
+  --tl:#0d9488;--tl2:#0f766e;--tl3:#ccfbf1;
+  --yw:#fbbf24;--yw2:#fef3c7;
+  --ok:#10b981;--ok2:#d1fae5;
+  --err:#ef4444;--err2:#fee2e2;
+  --gray:#6b7280;--gray2:#f3f4f6;--gray3:#e5e7eb;
+  --shadow:0 4px 24px rgba(219,39,119,.13);
+}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#fce7f3 0%,#e0f2fe 100%);min-height:100vh;color:#111827;}
+
+/* HEADER */
+.header{background:linear-gradient(90deg,var(--pk2),var(--tl));padding:12px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(0,0,0,.18);position:sticky;top:0;z-index:100;}
+.header h1{font-family:'Fredoka One',cursive;color:white;font-size:1.2rem;flex:1;}
+.hbtn{color:white;font-weight:800;font-size:.8rem;background:rgba(255,255,255,.2);padding:6px 14px;border-radius:20px;border:none;cursor:pointer;text-decoration:none;}
+.hbtn:hover{background:rgba(255,255,255,.3);}
+.user-chip{background:rgba(255,255,255,.15);border-radius:20px;padding:5px 12px;color:white;font-size:.78rem;font-weight:700;}
+
+/* NAV TABS */
+.nav-tabs{background:white;border-bottom:2px solid var(--pk3);display:flex;overflow-x:auto;position:sticky;top:54px;z-index:99;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.ntab{flex:1;min-width:90px;padding:12px 8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.78rem;border:none;background:none;color:#9ca3af;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;text-align:center;}
+.ntab.active{color:var(--pk);border-bottom-color:var(--pk);}
+.ntab:hover:not(.active){color:var(--tl);}
+
+/* MAIN */
+.main{max-width:700px;margin:0 auto;padding:20px 16px 100px;}
+
+/* SECTION */
+.section{display:none;}
+.section.active{display:block;}
+
+/* CARD */
+.card{background:white;border-radius:18px;box-shadow:var(--shadow);padding:18px;margin-bottom:14px;}
+.card-title{font-family:'Fredoka One',cursive;color:var(--pk2);font-size:1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stat-card{background:white;border-radius:16px;padding:14px;text-align:center;box-shadow:var(--shadow);}
+.stat-num{font-family:'Fredoka One',cursive;font-size:2rem;color:var(--pk);line-height:1;}
+.stat-lbl{font-size:.7rem;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
+
+/* BUTTONS */
+.pbtn{width:100%;padding:13px;background:var(--pk);color:white;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;transition:all .2s;}
+.pbtn:hover{background:var(--pk2);}
+.pbtn:disabled{opacity:.6;pointer-events:none;}
+.pbtn-teal{background:var(--tl);}
+.pbtn-teal:hover{background:var(--tl2);}
+.pbtn-gray{background:var(--gray2);color:#374151;}
+.pbtn-gray:hover{background:var(--gray3);}
+.pbtn-sm{padding:7px 14px;font-size:.8rem;width:auto;border-radius:10px;}
+.pbtn-danger{background:var(--err2);color:#b91c1c;}
+.pbtn-danger:hover{background:#fecaca;}
+
+/* FORM */
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:.8rem;font-weight:700;color:var(--pk2);margin-bottom:5px;}
+.field input,.field select{width:100%;padding:10px 13px;border:2px solid var(--pk3);border-radius:12px;font-family:'Nunito',sans-serif;font-size:.92rem;background:white;}
+.field input:focus,.field select:focus{outline:none;border-color:var(--pk);}
+.field .hint{font-size:.75rem;color:var(--gray);margin-top:4px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.field-row{grid-template-columns:1fr;}}
+
+/* BADGE / CHIPS */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:800;}
+.badge-admin{background:var(--pk3);color:var(--pk);}
+.badge-cliente{background:var(--tl3);color:var(--tl2);}
+.badge-inactivo{background:var(--gray2);color:var(--gray);}
+.badge-pts{background:var(--yw2);color:#92400e;}
+
+/* USUARIO ROW */
+.usr-row{padding:12px 0;border-bottom:1.5px dashed var(--gray2);}
+.usr-row:last-child{border-bottom:none;}
+.usr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.usr-nombre{font-weight:800;font-size:.9rem;color:#111827;}
+.usr-email{font-size:.75rem;color:var(--gray);margin-top:2px;}
+.usr-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.usr-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+
+/* PEDIDO ROW */
+.ped-row{background:#f9fafb;border-left:4px solid var(--pk);border-radius:10px;padding:12px;margin-bottom:8px;}
+.ped-row.entregado{border-left-color:var(--ok);}
+.ped-row.cancelado{border-left-color:var(--gray);opacity:.65;}
+.ped-folio{font-family:'Fredoka One',cursive;color:var(--pk);font-size:.9rem;}
+.ped-info{font-size:.76rem;color:var(--gray);margin-top:3px;}
+.ped-top{display:flex;justify-content:space-between;align-items:flex-start;}
+
+/* CANJE ROW */
+.canje-row{background:#fffbeb;border-left:4px solid var(--yw);border-radius:10px;padding:12px;margin-bottom:8px;}
+.canje-row.aprobado{border-left-color:var(--ok);background:var(--ok2);}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.modal-bg.open{display:flex;}
+.modal-box{background:white;border-radius:20px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.modal-title{font-family:'Fredoka One',cursive;color:var(--pk2);font-size:1.2rem;margin-bottom:16px;}
+.modal-note{background:var(--yw2);border-radius:10px;padding:10px 13px;font-size:.8rem;color:#92400e;font-weight:700;margin-bottom:14px;line-height:1.6;}
+.perror{color:#dc2626;font-size:.82rem;font-weight:700;text-align:center;margin-top:8px;min-height:18px;}
+
+/* SEARCH */
+.search-wrap{position:relative;margin-bottom:12px;}
+.search-wrap input{width:100%;padding:10px 10px 10px 36px;border:2px solid var(--pk3);border-radius:12px;font-family:'Nunito',sans-serif;font-size:.9rem;}
+.search-wrap input:focus{outline:none;border-color:var(--pk);}
+.search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;}
+
+/* EMPTY */
+.empty{text-align:center;padding:28px;color:var(--gray);font-size:.85rem;}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:white;padding:10px 22px;border-radius:50px;font-weight:700;font-size:.88rem;z-index:9999;display:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{display:block;}
+.toast.ok{background:var(--ok);}
+.toast.err{background:var(--err);}
+
+/* AUTH SCREEN */
+#view-auth{max-width:380px;margin:60px auto 0;}
+.auth-logo{text-align:center;margin-bottom:24px;}
+.auth-logo .em{font-size:3.5rem;}
+.auth-logo h2{font-family:'Fredoka One',cursive;color:var(--pk2);font-size:1.4rem;margin-top:8px;}
+.auth-logo p{color:var(--gray);font-size:.85rem;}
+
+/* PUNTOS MODAL EDIT */
+.pts-display{font-family:'Fredoka One',cursive;font-size:2.5rem;color:var(--pk);text-align:center;margin:12px 0;}
+
+/* PREMIO ROW */
+.premio-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1.5px dashed var(--gray2);}
+.premio-row:last-child{border-bottom:none;}
+.premio-ph{width:40px;height:40px;border-radius:10px;background:var(--pk3);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.premio-info{flex:1;}
+.premio-nombre{font-weight:800;font-size:.88rem;}
+.premio-pts-lbl{font-size:.75rem;color:var(--gray);}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--gray3);margin:14px 0;}
+
+/* RANGOS BADGE */
+.rng{display:inline-block;padding:2px 8px;border-radius:8px;font-size:.7rem;font-weight:800;background:#e0f2fe;color:#0369a1;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <a href="portal.html" class="hbtn">← Portal</a>
+  <h1>👑 Panel Administrador</h1>
+  <span class="user-chip" id="admin-chip">...</span>
+  <button class="hbtn" onclick="doLogout()">Salir 🚪</button>
+</div>
+
+<!-- AUTH VIEW -->
+<div class="main" id="view-auth">
+  <div class="card">
+    <div class="auth-logo">
+      <div class="em">🍦</div>
+      <h2>Ciudad Paleta</h2>
+      <p>Acceso solo para administradores</p>
+    </div>
+    <div class="field"><label>Correo</label><input type="email" id="auth-email" placeholder="admin@ciudadpaleta.mx" autocomplete="email"></div>
+    <div class="field"><label>Contraseña</label><input type="password" id="auth-pass" placeholder="••••••••" onkeypress="if(event.key==='Enter')doAuth()"></div>
+    <button class="pbtn" id="auth-btn" onclick="doAuth()">Iniciar Sesión</button>
+    <div class="perror" id="auth-error"></div>
+  </div>
+</div>
+
+<!-- APP VIEW -->
+<div id="view-app" style="display:none;">
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs">
+    <button class="ntab active" onclick="switchTab('clientes',this)">👥 Clientes</button>
+    <button class="ntab" onclick="switchTab('pedidos',this)">🧾 Pedidos</button>
+    <button class="ntab" onclick="switchTab('canjes',this)">🎁 Canjes</button>
+    <button class="ntab" onclick="switchTab('premios',this)">🏆 Premios</button>
+    <button class="ntab" onclick="switchTab('admins',this)">👑 Admins</button>
+  </div>
+
+  <div class="main">
+
+    <!-- =================== CLIENTES =================== -->
+    <div id="sec-clientes" class="section active">
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="st-clientes">0</div><div class="stat-lbl">👥 Clientes</div></div>
+        <div class="stat-card"><div class="stat-num" id="st-activos">0</div><div class="stat-lbl">✅ Activos</div></div>
+        <div class="stat-card"><div class="stat-num" id="st-pts-total">0</div><div class="stat-lbl">⭐ Pts totales</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">👥 Clientes Registrados</div>
+        <button class="pbtn pbtn-teal" style="margin-bottom:12px;" onclick="abrirNuevoCliente()">➕ Nuevo Cliente</button>
+        <div class="search-wrap"><span class="search-ico">🔍</span><input type="text" id="buscar-cliente" placeholder="Buscar por nombre o correo…" oninput="filtrarClientes()"></div>
+        <div id="lista-clientes"><div class="empty">Cargando…</div></div>
+      </div>
+
+    </div>
+
+    <!-- =================== PEDIDOS =================== -->
+    <div id="sec-pedidos" class="section">
+      <div class="card">
+        <div class="card-title">🧾 Pedidos del Portal</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+          <select id="filtro-pedido-status" class="field" style="width:auto;margin:0;" onchange="filtrarPedidos()">
+            <option value="">Todos</option>
+            <option value="pendiente">🟡 Pendiente</option>
+            <option value="listo">🟢 Listo</option>
+            <option value="entregado">📦 Entregado</option>
+            <option value="cancelado">❌ Cancelado</option>
+          </select>
+          <select id="filtro-pedido-plaza" class="field" style="width:auto;margin:0;" onchange="filtrarPedidos()">
+            <option value="">Todas las plazas</option>
+            <option value="puebla">🏙️ Puebla</option>
+            <option value="acapulco">🌊 Acapulco</option>
+          </select>
+        </div>
+        <div id="lista-pedidos"><div class="empty">Cargando…</div></div>
+      </div>
+    </div>
+
+    <!-- =================== CANJES =================== -->
+    <div id="sec-canjes" class="section">
+      <div class="card">
+        <div class="card-title">🎁 Solicitudes de Canje</div>
+        <div id="lista-canjes"><div class="empty">Cargando…</div></div>
+      </div>
+    </div>
+
+    <!-- =================== PREMIOS =================== -->
+    <div id="sec-premios" class="section">
+      <div class="card">
+        <div class="card-title">🏆 Premios del Catálogo</div>
+        <button class="pbtn pbtn-teal" style="margin-bottom:14px;" onclick="abrirNuevoPremio()">➕ Nuevo Premio</button>
+        <div id="lista-premios"><div class="empty">Sin premios</div></div>
+      </div>
+    </div>
+
+    <!-- =================== ADMINS =================== -->
+    <div id="sec-admins" class="section">
+      <div class="card">
+        <div class="card-title">👑 Administradores del Portal</div>
+        <div class="modal-note" style="margin-bottom:14px;">
+          Los administradores tienen acceso completo al panel. Los clientes solo pueden hacer pedidos.
+        </div>
+        <button class="pbtn" style="margin-bottom:14px;" onclick="abrirNuevoAdmin()">➕ Nuevo Administrador</button>
+        <div id="lista-admins"><div class="empty">Cargando…</div></div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /view-app -->
+
+<!-- ============ MODAL CLIENTE ============ -->
+<div class="modal-bg" id="modal-cliente">
+  <div class="modal-box">
+    <div class="modal-title" id="mc-title">➕ Nuevo Cliente</div>
+    <div class="modal-note" id="mc-note">
+      Se creará la cuenta directamente en Firebase. El cliente recibirá un correo para establecer su contraseña si activas esa opción, o puedes asignarla tú.
+    </div>
+    <input type="hidden" id="mc-uid">
+    <div class="field"><label>Nombre completo *</label><input type="text" id="mc-nombre" placeholder="Ej: María González"></div>
+    <div class="field"><label>Correo electrónico *</label><input type="email" id="mc-email" placeholder="cliente@ejemplo.com"></div>
+    <div id="mc-pass-wrap">
+      <div class="field">
+        <label>Contraseña inicial *</label>
+        <input type="password" id="mc-pass" placeholder="Mínimo 6 caracteres">
+        <div class="hint">El cliente puede cambiarla después desde su portal</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Plaza</label>
+        <select id="mc-plaza">
+          <option value="puebla">🏙️ Puebla</option>
+          <option value="acapulco">🌊 Acapulco</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Teléfono</label>
+        <input type="text" id="mc-tel" placeholder="Opcional">
+      </div>
+    </div>
+    <div class="field">
+      <label>Puntos iniciales</label>
+      <input type="number" id="mc-puntos" value="0" min="0">
+    </div>
+    <div class="perror" id="mc-error"></div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="pbtn" id="mc-save-btn" onclick="guardarCliente()">✅ Guardar</button>
+      <button class="pbtn pbtn-gray" onclick="cerrarModal('modal-cliente')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL PUNTOS ============ -->
+<div class="modal-bg" id="modal-puntos">
+  <div class="modal-box">
+    <div class="modal-title">⭐ Editar Puntos</div>
+    <div id="mp-cliente-info" style="font-size:.85rem;color:var(--gray);margin-bottom:10px;font-weight:700;"></div>
+    <div class="pts-display" id="mp-pts-actual">0</div>
+    <div style="font-size:.78rem;color:var(--gray);text-align:center;margin-bottom:14px;">puntos actuales</div>
+    <div class="field">
+      <label>Acción</label>
+      <select id="mp-accion">
+        <option value="sumar">➕ Sumar puntos</option>
+        <option value="restar">➖ Restar puntos</option>
+        <option value="fijar">🎯 Fijar en valor exacto</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Cantidad de puntos</label>
+      <input type="number" id="mp-cantidad" min="0" value="0">
+    </div>
+    <div class="field">
+      <label>Motivo (opcional)</label>
+      <input type="text" id="mp-motivo" placeholder="Ej: Bonificación, ajuste manual...">
+    </div>
+    <div class="perror" id="mp-error"></div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="pbtn" onclick="guardarPuntos()">✅ Guardar</button>
+      <button class="pbtn pbtn-gray" onclick="cerrarModal('modal-puntos')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL ADMIN ============ -->
+<div class="modal-bg" id="modal-admin">
+  <div class="modal-box">
+    <div class="modal-title" id="ma-title">➕ Nuevo Administrador</div>
+    <div class="modal-note">
+      Los administradores del portal tienen acceso total a este panel: crear clientes, ver pedidos, gestionar canjes y premios.
+    </div>
+    <input type="hidden" id="ma-uid">
+    <div class="field"><label>Nombre completo *</label><input type="text" id="ma-nombre" placeholder="Ej: Juan Admin"></div>
+    <div class="field"><label>Correo electrónico *</label><input type="email" id="ma-email" placeholder="admin@ciudadpaleta.mx"></div>
+    <div id="ma-pass-wrap">
+      <div class="field">
+        <label>Contraseña inicial *</label>
+        <input type="password" id="ma-pass" placeholder="Mínimo 6 caracteres">
+      </div>
+    </div>
+    <div class="perror" id="ma-error"></div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="pbtn" id="ma-save-btn" onclick="guardarAdmin()">✅ Guardar</button>
+      <button class="pbtn pbtn-gray" onclick="cerrarModal('modal-admin')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL PREMIO ============ -->
+<div class="modal-bg" id="modal-premio">
+  <div class="modal-box">
+    <div class="modal-title" id="mpr-title">➕ Nuevo Premio</div>
+    <input type="hidden" id="mpr-id">
+    <div class="field"><label>Nombre del premio *</label><input type="text" id="mpr-nombre" placeholder="Ej: Paleta Gratis"></div>
+    <div class="field"><label>Puntos requeridos *</label><input type="number" id="mpr-puntos" min="1" placeholder="Ej: 500"></div>
+    <div class="field"><label>Descripción</label><input type="text" id="mpr-desc" placeholder="Opcional"></div>
+    <div class="field"><label>Emoji / ícono</label><input type="text" id="mpr-emoji" placeholder="🎁" maxlength="4"></div>
+    <div class="perror" id="mpr-error"></div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="pbtn" onclick="guardarPremio()">✅ Guardar</button>
+      <button class="pbtn pbtn-gray" onclick="cerrarModal('modal-premio')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== FIREBASE (misma config que portal.html) =====
+const CFG = {
+  apiKey:            "AIzaSyBhVXmBy1G_Ce76Q02Jg9AVPnUuRIlb-94",
+  authDomain:        "ciudad-paleta.firebaseapp.com",
+  databaseURL:       "https://ciudad-paleta-default-rtdb.firebaseio.com",
+  projectId:         "ciudad-paleta",
+  storageBucket:     "ciudad-paleta.firebasestorage.app",
+  messagingSenderId: "1064653839055",
+  appId:             "1:1064653839055:web:9f919d806dcad234bdf5ba"
+};
+firebase.initializeApp(CFG);
+var db   = firebase.database();
+var auth = firebase.auth();
+
+var adminActual = null;
+var todosClientes = [];
+var todosPedidos = [];
+var todosCanjes = [];
+var todosPremios = [];
+var editPuntosUID = null;
+
+// ===== FIREBASE REST API para crear usuarios SIN cerrar sesión =====
+// Usamos la Firebase Auth REST API directamente
+async function crearUsuarioFirebase(email, password){
+  const apiKey = CFG.apiKey;
+  const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+apiKey, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({email, password, returnSecureToken:true})
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.localId; // esto es el UID
+}
+
+// ===== AUTH =====
+auth.onAuthStateChanged(async function(user){
+  if(!user){
+    mostrarAuth(); return;
+  }
+  try{
+    var snap = await db.ref('usuarios/'+user.uid).once('value');
+    var d = snap.val()||{};
+    if(d.rol !== 'admin'){
+      await auth.signOut();
+      mostrarAuth();
+      document.getElementById('auth-error').textContent = '⚠️ Solo administradores pueden acceder a este panel';
+      return;
+    }
+    adminActual = {uid:user.uid, ...d};
+    mostrarApp();
+  } catch(e){
+    mostrarAuth();
+  }
+});
+
+function mostrarAuth(){
+  document.getElementById('view-auth').style.display = 'block';
+  document.getElementById('view-app').style.display = 'none';
+}
+function mostrarApp(){
+  document.getElementById('view-auth').style.display = 'none';
+  document.getElementById('view-app').style.display = 'block';
+  document.getElementById('admin-chip').textContent = '👑 '+(adminActual.nombre||adminActual.email||'Admin');
+  cargarTodo();
+}
+
+async function doAuth(){
+  var email = document.getElementById('auth-email').value.trim();
+  var pass  = document.getElementById('auth-pass').value;
+  var btn   = document.getElementById('auth-btn');
+  var errEl = document.getElementById('auth-error');
+  if(!email||!pass){ errEl.textContent='⚠️ Ingresa correo y contraseña'; return; }
+  btn.disabled=true; btn.textContent='Iniciando…';
+  errEl.textContent='';
+  try{
+    await auth.signInWithEmailAndPassword(email, pass);
+  } catch(e){
+    var msgs={'auth/user-not-found':'❌ Usuario no encontrado','auth/wrong-password':'❌ Contraseña incorrecta','auth/invalid-credential':'❌ Correo o contraseña incorrectos','auth/too-many-requests':'⚠️ Demasiados intentos'};
+    errEl.textContent = msgs[e.code]||'❌ '+e.message;
+    btn.disabled=false; btn.textContent='Iniciar Sesión';
+  }
+}
+async function doLogout(){
+  await auth.signOut();
+  adminActual=null;
+}
+
+// ===== CARGAR TODO =====
+function cargarTodo(){
+  // Clientes
+  db.ref('usuarios').on('value', snap=>{
+    var data = snap.val()||{};
+    todosClientes = Object.entries(data)
+      .filter(([,u])=> u.rol==='cliente' || u.rol==='cliente_inactivo')
+      .map(([uid,u])=>({uid,...u}));
+    renderClientes();
+    actualizarStats();
+  });
+  // Pedidos del portal
+  db.ref('pedidos').on('value', snap=>{
+    var data = snap.val()||{};
+    todosPedidos = Object.values(data)
+      .filter(p=>p.origenPortal)
+      .sort((a,b)=>b.fecha-a.fecha);
+    renderPedidos();
+  });
+  // Canjes
+  db.ref('canjes').on('value', snap=>{
+    var data = snap.val()||{};
+    todosCanjes = Object.entries(data)
+      .map(([id,c])=>({id,...c}))
+      .sort((a,b)=>b.fecha-a.fecha);
+    renderCanjes();
+  });
+  // Premios
+  db.ref('premios').on('value', snap=>{
+    var data = snap.val()||{};
+    todosPremios = Object.entries(data).map(([id,p])=>({id,...p}));
+    renderPremios();
+  });
+  // Admins
+  db.ref('usuarios').on('value', snap=>{
+    var data = snap.val()||{};
+    renderAdmins(data);
+  });
+}
+
+// ===== STATS =====
+function actualizarStats(){
+  var activos = todosClientes.filter(c=>c.rol==='cliente');
+  var ptsTotal = todosClientes.reduce((a,c)=>a+(c.puntos||0),0);
+  document.getElementById('st-clientes').textContent = todosClientes.length;
+  document.getElementById('st-activos').textContent  = activos.length;
+  document.getElementById('st-pts-total').textContent = ptsTotal;
+}
+
+// ===== TABS =====
+function switchTab(id, btn){
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('sec-'+id).classList.add('active');
+}
+
+// ===== CLIENTES =====
+function filtrarClientes(){
+  renderClientes();
+}
+function renderClientes(){
+  var q = (document.getElementById('buscar-cliente')||{value:''}).value.toLowerCase();
+  var filtrados = todosClientes.filter(c=>
+    (c.nombre||'').toLowerCase().includes(q) ||
+    (c.email||'').toLowerCase().includes(q)
+  );
+  var el = document.getElementById('lista-clientes');
+  if(!filtrados.length){ el.innerHTML='<div class="empty">Sin clientes registrados</div>'; return; }
+  var smap = {pendiente:'🟡 Pendiente', listo:'🟢 Listo', entregado:'📦 Entregado', cancelado:'❌ Cancelado'};
+  el.innerHTML = filtrados.map(c=>{
+    var inactivo = c.rol==='cliente_inactivo';
+    var ped = todosPedidos.filter(p=>p.clienteUid===c.uid).length;
+    return `<div class="usr-row">
+      <div class="usr-top">
+        <div>
+          <div class="usr-nombre">${c.nombre||'Sin nombre'}</div>
+          <div class="usr-email">${c.email||''}</div>
+        </div>
+        <span class="badge ${inactivo?'badge-inactivo':'badge-cliente'}">${inactivo?'Inactivo':'Cliente'}</span>
+      </div>
+      <div class="usr-badges">
+        <span class="badge badge-pts">⭐ ${c.puntos||0} pts</span>
+        <span class="badge" style="background:#e0f2fe;color:#0369a1;">📍 ${c.plaza==='acapulco'?'Acapulco':'Puebla'}</span>
+        <span class="badge" style="background:#f3f4f6;color:#6b7280;">🧾 ${ped} pedidos</span>
+      </div>
+      <div class="usr-actions">
+        <button class="pbtn pbtn-sm" onclick="abrirEditarCliente('${c.uid}')">✏️ Editar</button>
+        <button class="pbtn pbtn-sm pbtn-teal" onclick="abrirEditarPuntos('${c.uid}')">⭐ Puntos</button>
+        ${inactivo
+          ? `<button class="pbtn pbtn-sm" style="background:var(--ok2);color:#065f46;" onclick="reactivarCliente('${c.uid}','${(c.nombre||'').replace(/'/g,"\\'")}')">↩️ Reactivar</button>`
+          : `<button class="pbtn pbtn-sm pbtn-danger" onclick="desactivarCliente('${c.uid}','${(c.nombre||'').replace(/'/g,"\\'")}')">🚫 Desactivar</button>`
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== NUEVO CLIENTE =====
+function abrirNuevoCliente(){
+  document.getElementById('mc-title').textContent = '➕ Nuevo Cliente';
+  document.getElementById('mc-uid').value = '';
+  document.getElementById('mc-nombre').value = '';
+  document.getElementById('mc-email').value = '';
+  document.getElementById('mc-pass').value = '';
+  document.getElementById('mc-tel').value = '';
+  document.getElementById('mc-puntos').value = '0';
+  document.getElementById('mc-plaza').value = 'puebla';
+  document.getElementById('mc-pass-wrap').style.display = 'block';
+  document.getElementById('mc-note').style.display = 'block';
+  document.getElementById('mc-error').textContent = '';
+  document.getElementById('modal-cliente').classList.add('open');
+}
+function abrirEditarCliente(uid){
+  var c = todosClientes.find(x=>x.uid===uid);
+  if(!c) return;
+  document.getElementById('mc-title').textContent = '✏️ Editar Cliente';
+  document.getElementById('mc-uid').value  = uid;
+  document.getElementById('mc-nombre').value = c.nombre||'';
+  document.getElementById('mc-email').value  = c.email||'';
+  document.getElementById('mc-tel').value    = c.telefono||'';
+  document.getElementById('mc-puntos').value = c.puntos||0;
+  document.getElementById('mc-plaza').value  = c.plaza||'puebla';
+  document.getElementById('mc-pass-wrap').style.display = 'none'; // no editar pass aquí
+  document.getElementById('mc-note').style.display = 'none';
+  document.getElementById('mc-error').textContent = '';
+  document.getElementById('modal-cliente').classList.add('open');
+}
+
+async function guardarCliente(){
+  var uid    = document.getElementById('mc-uid').value;
+  var nombre = document.getElementById('mc-nombre').value.trim();
+  var email  = document.getElementById('mc-email').value.trim();
+  var pass   = document.getElementById('mc-pass').value;
+  var tel    = document.getElementById('mc-tel').value.trim();
+  var puntos = parseInt(document.getElementById('mc-puntos').value)||0;
+  var plaza  = document.getElementById('mc-plaza').value;
+  var errEl  = document.getElementById('mc-error');
+  var btn    = document.getElementById('mc-save-btn');
+  if(!nombre||!email){ errEl.textContent='⚠️ Nombre y correo son obligatorios'; return; }
+
+  btn.disabled=true; btn.textContent='Guardando…';
+
+  try{
+    if(!uid){
+      // NUEVO: crear en Firebase Auth via REST y luego guardar en DB
+      if(!pass||pass.length<6){ errEl.textContent='⚠️ La contraseña debe tener al menos 6 caracteres'; btn.disabled=false; btn.textContent='✅ Guardar'; return; }
+      uid = await crearUsuarioFirebase(email, pass);
+    }
+    var data = {nombre, email, rol:'cliente', activo:true, plaza, puntos};
+    if(tel) data.telefono = tel;
+    await db.ref('usuarios/'+uid).update(data);
+    cerrarModal('modal-cliente');
+    showToast('✅ Cliente guardado correctamente', 'ok');
+  } catch(e){
+    var msgs = {
+      'EMAIL_EXISTS':'❌ Este correo ya está registrado',
+      'INVALID_EMAIL':'❌ Correo inválido',
+      'WEAK_PASSWORD : Password should be at least 6 characters':'❌ Contraseña muy corta',
+    };
+    errEl.textContent = msgs[e.message]||'❌ '+e.message;
+  }
+  btn.disabled=false; btn.textContent='✅ Guardar';
+}
+
+async function desactivarCliente(uid, nombre){
+  if(!confirm('¿Desactivar a '+nombre+'? No podrá iniciar sesión en el portal.')) return;
+  await db.ref('usuarios/'+uid+'/rol').set('cliente_inactivo');
+  showToast('✅ Cliente desactivado');
+}
+async function reactivarCliente(uid, nombre){
+  if(!confirm('¿Reactivar a '+nombre+'?')) return;
+  await db.ref('usuarios/'+uid+'/rol').set('cliente');
+  showToast('✅ Cliente reactivado');
+}
+
+// ===== PUNTOS =====
+function abrirEditarPuntos(uid){
+  var c = todosClientes.find(x=>x.uid===uid);
+  if(!c) return;
+  editPuntosUID = uid;
+  document.getElementById('mp-cliente-info').textContent = c.nombre+' — '+c.email;
+  document.getElementById('mp-pts-actual').textContent = c.puntos||0;
+  document.getElementById('mp-accion').value = 'sumar';
+  document.getElementById('mp-cantidad').value = 0;
+  document.getElementById('mp-motivo').value = '';
+  document.getElementById('mp-error').textContent = '';
+  document.getElementById('modal-puntos').classList.add('open');
+}
+async function guardarPuntos(){
+  var c = todosClientes.find(x=>x.uid===editPuntosUID);
+  if(!c) return;
+  var accion   = document.getElementById('mp-accion').value;
+  var cantidad = parseInt(document.getElementById('mp-cantidad').value)||0;
+  var errEl    = document.getElementById('mp-error');
+  if(cantidad<0){ errEl.textContent='⚠️ La cantidad no puede ser negativa'; return; }
+  var actual = c.puntos||0;
+  var nuevos;
+  if(accion==='sumar')  nuevos = actual + cantidad;
+  if(accion==='restar') nuevos = Math.max(0, actual - cantidad);
+  if(accion==='fijar')  nuevos = cantidad;
+  await db.ref('usuarios/'+editPuntosUID+'/puntos').set(nuevos);
+  // Log en Firebase
+  await db.ref('puntos_log/'+Date.now()).set({
+    clienteUid: editPuntosUID,
+    cliente: c.nombre||c.email,
+    accion, cantidad, resultado:nuevos,
+    adminUid: adminActual.uid,
+    admin: adminActual.nombre||adminActual.email,
+    fecha: Date.now()
+  });
+  cerrarModal('modal-puntos');
+  showToast('⭐ Puntos actualizados: '+nuevos+' pts', 'ok');
+}
+
+// ===== PEDIDOS =====
+function filtrarPedidos(){
+  renderPedidos();
+}
+function renderPedidos(){
+  var status = document.getElementById('filtro-pedido-status').value;
+  var plaza  = document.getElementById('filtro-pedido-plaza').value;
+  var filtrados = todosPedidos.filter(p=>
+    (!status || p.status===status) &&
+    (!plaza  || p.plaza===plaza)
+  );
+  var el = document.getElementById('lista-pedidos');
+  if(!filtrados.length){ el.innerHTML='<div class="empty">No hay pedidos</div>'; return; }
+  var smap = {pendiente:'🟡 Pendiente', listo:'🟢 Listo', entregado:'📦 Entregado', cancelado:'❌ Cancelado'};
+  el.innerHTML = filtrados.map(p=>`
+    <div class="ped-row ${p.status}">
+      <div class="ped-top">
+        <div>
+          <div class="ped-folio">Pedido #${String(p.id).slice(-6)}</div>
+          <div class="ped-info">👤 ${p.cliente||'—'} · 📍 ${p.plaza==='acapulco'?'Acapulco':'Puebla'}</div>
+          <div class="ped-info">📦 ${p.totalPiezas} pzas · 💰 ${fmt(p.totalMonto)}</div>
+          <div class="ped-info">📅 ${fmtF(p.fecha)}</div>
+        </div>
+        <span class="badge" style="background:#f3f4f6;color:#374151;">${smap[p.status]||p.status}</span>
+      </div>
+      ${p.status==='pendiente'?`
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+          <button class="pbtn pbtn-sm pbtn-teal" onclick="cambiarStatusPedido(${p.id},'listo')">🟢 Listo</button>
+          <button class="pbtn pbtn-sm" onclick="cambiarStatusPedido(${p.id},'entregado')">📦 Entregado</button>
+          <button class="pbtn pbtn-sm pbtn-danger" onclick="cambiarStatusPedido(${p.id},'cancelado')">❌ Cancelar</button>
+        </div>`:
+      p.status==='listo'?`
+        <div style="display:flex;gap:6px;margin-top:8px;">
+          <button class="pbtn pbtn-sm" onclick="cambiarStatusPedido(${p.id},'entregado')">📦 Marcar Entregado</button>
+          <button class="pbtn pbtn-sm pbtn-danger" onclick="cambiarStatusPedido(${p.id},'cancelado')">❌ Cancelar</button>
+        </div>`:''}
+    </div>`).join('');
+}
+
+async function cambiarStatusPedido(id, nuevoStatus){
+  var pedido = todosPedidos.find(p=>p.id===id);
+  if(!pedido) return;
+  var confirmar = nuevoStatus==='cancelado'
+    ? confirm('¿Cancelar este pedido?')
+    : nuevoStatus==='entregado'
+    ? confirm('¿Marcar como entregado? Se sumarán puntos al cliente.')
+    : true;
+  if(!confirmar) return;
+  await db.ref('pedidos/'+id+'/status').set(nuevoStatus);
+  await db.ref('clientes_pedidos/'+pedido.clienteUid+'/'+id+'/status').set(nuevoStatus);
+  // Si se entrega → sumar puntos
+  if(nuevoStatus==='entregado' && pedido.clienteUid){
+    var snap = await db.ref('usuarios/'+pedido.clienteUid+'/puntos').once('value');
+    var ptsActuales = snap.val()||0;
+    var nuevos = ptsActuales + Math.floor(pedido.totalMonto/100);
+    await db.ref('usuarios/'+pedido.clienteUid+'/puntos').set(nuevos);
+  }
+  showToast('✅ Pedido actualizado', 'ok');
+}
+
+// ===== CANJES =====
+function renderCanjes(){
+  var el = document.getElementById('lista-canjes');
+  if(!todosCanjes.length){ el.innerHTML='<div class="empty">Sin canjes pendientes 🎉</div>'; return; }
+  el.innerHTML = todosCanjes.map(c=>`
+    <div class="canje-row ${c.status==='aprobado'?'aprobado':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+        <div>
+          <div style="font-weight:800;font-size:.88rem;">🎁 ${c.premio}</div>
+          <div style="font-size:.76rem;color:var(--gray);margin-top:2px;">👤 ${c.cliente||'—'} · ⭐ ${c.puntosUsados} pts</div>
+          <div style="font-size:.76rem;color:var(--gray);">📅 ${fmtF(c.fecha)}</div>
+        </div>
+        <span class="badge ${c.status==='aprobado'?'badge-cliente':'badge-pts'}">${c.status==='aprobado'?'✅ Aprobado':'⏳ Pendiente'}</span>
+      </div>
+      ${c.status!=='aprobado'?`
+        <div style="display:flex;gap:6px;margin-top:8px;">
+          <button class="pbtn pbtn-sm pbtn-teal" onclick="aprobarCanje('${c.id}','${(c.cliente||'').replace(/'/g,"\\'")}')">✅ Marcar entregado</button>
+        </div>`:''}
+    </div>`).join('');
+}
+async function aprobarCanje(id, cliente){
+  if(!confirm('¿Marcar el canje de '+cliente+' como entregado?')) return;
+  await db.ref('canjes/'+id+'/status').set('aprobado');
+  showToast('✅ Canje aprobado', 'ok');
+}
+
+// ===== PREMIOS =====
+function renderPremios(){
+  var el = document.getElementById('lista-premios');
+  if(!todosPremios.length){ el.innerHTML='<div class="empty">Sin premios configurados</div>'; return; }
+  var sorted = todosPremios.slice().sort((a,b)=>a.puntos-b.puntos);
+  el.innerHTML = '<div>'+sorted.map(p=>`
+    <div class="premio-row">
+      <div class="premio-ph">${p.emoji||'🎁'}</div>
+      <div class="premio-info">
+        <div class="premio-nombre">${p.nombre}</div>
+        <div class="premio-pts-lbl">⭐ ${p.puntos} puntos requeridos ${p.descripcion?'· '+p.descripcion:''}</div>
+      </div>
+      <div style="display:flex;gap:5px;">
+        <button class="pbtn pbtn-sm" style="background:var(--pk3);color:var(--pk2);" onclick="abrirEditarPremio('${p.id}')">✏️</button>
+        <button class="pbtn pbtn-sm pbtn-danger" onclick="eliminarPremio('${p.id}','${(p.nombre||'').replace(/'/g,"\\'")}')">🗑️</button>
+      </div>
+    </div>`).join('')+'</div>';
+}
+function abrirNuevoPremio(){
+  document.getElementById('mpr-title').textContent = '➕ Nuevo Premio';
+  document.getElementById('mpr-id').value = '';
+  document.getElementById('mpr-nombre').value = '';
+  document.getElementById('mpr-puntos').value = '';
+  document.getElementById('mpr-desc').value = '';
+  document.getElementById('mpr-emoji').value = '🎁';
+  document.getElementById('mpr-error').textContent = '';
+  document.getElementById('modal-premio').classList.add('open');
+}
+function abrirEditarPremio(id){
+  var p = todosPremios.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('mpr-title').textContent = '✏️ Editar Premio';
+  document.getElementById('mpr-id').value    = id;
+  document.getElementById('mpr-nombre').value = p.nombre||'';
+  document.getElementById('mpr-puntos').value = p.puntos||'';
+  document.getElementById('mpr-desc').value   = p.descripcion||'';
+  document.getElementById('mpr-emoji').value  = p.emoji||'🎁';
+  document.getElementById('mpr-error').textContent = '';
+  document.getElementById('modal-premio').classList.add('open');
+}
+async function guardarPremio(){
+  var id     = document.getElementById('mpr-id').value;
+  var nombre = document.getElementById('mpr-nombre').value.trim();
+  var puntos = parseInt(document.getElementById('mpr-puntos').value)||0;
+  var desc   = document.getElementById('mpr-desc').value.trim();
+  var emoji  = document.getElementById('mpr-emoji').value.trim()||'🎁';
+  var errEl  = document.getElementById('mpr-error');
+  if(!nombre||!puntos){ errEl.textContent='⚠️ Nombre y puntos son obligatorios'; return; }
+  var data = {nombre, puntos, descripcion:desc, emoji};
+  var ref = id ? db.ref('premios/'+id) : db.ref('premios').push();
+  await ref.set(data);
+  cerrarModal('modal-premio');
+  showToast('✅ Premio guardado', 'ok');
+}
+async function eliminarPremio(id, nombre){
+  if(!confirm('¿Eliminar el premio "'+nombre+'"?')) return;
+  await db.ref('premios/'+id).remove();
+  showToast('🗑️ Premio eliminado');
+}
+
+// ===== ADMINS =====
+function renderAdmins(data){
+  var admins = Object.entries(data)
+    .filter(([,u])=>u.rol==='admin')
+    .map(([uid,u])=>({uid,...u}));
+  var el = document.getElementById('lista-admins');
+  if(!admins.length){ el.innerHTML='<div class="empty">Sin administradores</div>'; return; }
+  el.innerHTML = admins.map(a=>`
+    <div class="usr-row">
+      <div class="usr-top">
+        <div>
+          <div class="usr-nombre">${a.nombre||'Sin nombre'} ${a.uid===adminActual.uid?'⭐ (tú)':''}</div>
+          <div class="usr-email">${a.email||''}</div>
+        </div>
+        <span class="badge badge-admin">👑 Admin</span>
+      </div>
+      ${a.uid!==adminActual.uid?`
+        <div class="usr-actions">
+          <button class="pbtn pbtn-sm pbtn-danger" onclick="eliminarAdmin('${a.uid}','${(a.nombre||'').replace(/'/g,"\\'")}')">🚫 Revocar acceso</button>
+        </div>`:'<div style="font-size:.75rem;color:var(--gray);margin-top:6px;">Tu propia cuenta</div>'}
+    </div>`).join('');
+}
+function abrirNuevoAdmin(){
+  document.getElementById('ma-title').textContent = '➕ Nuevo Administrador';
+  document.getElementById('ma-uid').value = '';
+  document.getElementById('ma-nombre').value = '';
+  document.getElementById('ma-email').value = '';
+  document.getElementById('ma-pass').value = '';
+  document.getElementById('ma-pass-wrap').style.display = 'block';
+  document.getElementById('ma-error').textContent = '';
+  document.getElementById('modal-admin').classList.add('open');
+}
+async function guardarAdmin(){
+  var uid    = document.getElementById('ma-uid').value;
+  var nombre = document.getElementById('ma-nombre').value.trim();
+  var email  = document.getElementById('ma-email').value.trim();
+  var pass   = document.getElementById('ma-pass').value;
+  var errEl  = document.getElementById('ma-error');
+  var btn    = document.getElementById('ma-save-btn');
+  if(!nombre||!email){ errEl.textContent='⚠️ Completa todos los campos'; return; }
+  btn.disabled=true; btn.textContent='Guardando…';
+  try{
+    if(!uid){
+      if(!pass||pass.length<6){ errEl.textContent='⚠️ Contraseña mínimo 6 caracteres'; btn.disabled=false; btn.textContent='✅ Guardar'; return; }
+      uid = await crearUsuarioFirebase(email, pass);
+    }
+    await db.ref('usuarios/'+uid).update({nombre, email, rol:'admin', activo:true});
+    cerrarModal('modal-admin');
+    showToast('✅ Administrador creado', 'ok');
+  } catch(e){
+    var msgs = {'EMAIL_EXISTS':'❌ Este correo ya está registrado'};
+    errEl.textContent = msgs[e.message]||'❌ '+e.message;
+  }
+  btn.disabled=false; btn.textContent='✅ Guardar';
+}
+async function eliminarAdmin(uid, nombre){
+  if(uid===adminActual.uid){ showToast('⚠️ No puedes revocar tu propio acceso','err'); return; }
+  if(!confirm('¿Revocar acceso de administrador a '+nombre+'?\nSu cuenta de Firebase se mantendrá pero no podrá acceder al panel.')) return;
+  // Solo le cambiamos el rol a 'empleado' para que no pueda entrar al panel de clientes
+  // pero tampoco al sistema de gestión (ese tiene su propio control)
+  await db.ref('usuarios/'+uid+'/rol').set('cliente_inactivo');
+  showToast('✅ Acceso revocado');
+}
+
+// ===== HELPERS =====
+function cerrarModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+// Cerrar modales al hacer click afuera
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('open'); });
+});
+function showToast(msg, tipo=''){
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show '+(tipo||'');
+  setTimeout(()=>el.classList.remove('show'), 2800);
+}
+function fmt(n){ var v=parseFloat(n); return isNaN(v)?'—':'$'+v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+function fmtF(ts){ return new Date(ts).toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+</script>
+</body>
+</html>
