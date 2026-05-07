@@ -307,31 +307,25 @@
         "puntos": [
           {
             "name": "Santa Barbara Gro",
-            "address": "Yatziri",
+            "address": "Km 42, Providencia, Santa Rosa",
             "whatsapp": "527472570598",
             "img": "assets/puntos/comunidad-de-santa-barbara-gro-acapulco-1778112436236.jpg"
           },
           {
             "name": "Colosio",
-            "address": "Rosy Alexia",
+            "address": "Condominio Topacio casa 19",
             "whatsapp": "527442217289",
             "img": "assets/puntos/colosio-acapulco-1778112512315.jpg"
           },
           {
             "name": "Loma bonita la cima",
-            "address": "Itzel",
+            "address": "calle principal antes de la primaria",
             "whatsapp": "527441943615",
             "img": "assets/puntos/loma-bonita-la-cima-acapulco-1778127824154.jpg"
           },
           {
-            "name": "INFONAVIT Burocratas",
-            "address": "",
-            "whatsapp": "523334626102",
-            "img": "assets/puntos/punto-acapulco-1778169737574.jpg"
-          },
-          {
             "name": "Renacimiento ruta 2",
-            "address": "Azucena",
+            "address": "Paleteria el costeño fresa",
             "whatsapp": "527441829690",
             "img": "assets/puntos/punto-acapulco-1778169811974.jpg"
           }
@@ -349,6 +343,12 @@
             "address": "Mabel",
             "whatsapp": "522212425104",
             "img": "assets/puntos/sanctorum-cuautlancingo-puebla-1778128284704.jpg"
+          },
+          {
+            "name": "GUADALUPANA TIENDA MICHI",
+            "address": "GABRIELA",
+            "whatsapp": "522229257794",
+            "img": "assets/puntos/punto-puebla-1778172450068.jpg"
           }
         ],
         "featured": false,
@@ -361,9 +361,15 @@
         "puntos": [
           {
             "name": "Distribuidora Ciudad Paleta Chilpancingo INDECO",
-            "address": "Emmanuel",
+            "address": "Antiguo libramiento a tixtla",
             "whatsapp": "527471212354",
             "img": "assets/puntos/punto-chilpancingo-1778168797805.jpg"
+          },
+          {
+            "name": "INFONAVIT Burocratas",
+            "address": "Frente a los edificios nuevos",
+            "whatsapp": "523334626102",
+            "img": "assets/puntos/infonavit-burocratas-chilpancingo-1778172325554.jpg"
           }
         ],
         "img": "assets/ciudades/chilpancingo-1778112852838.jpg"
@@ -377,13 +383,13 @@
         "puntos": [
           {
             "name": "Paleteria Kelly",
-            "address": "Barrio de Talapa",
+            "address": "Barrio de Talapa AV. Juan N Alvarez",
             "whatsapp": "522411008830",
             "img": "assets/puntos/paleteria-kelly-ometepec-1778112663167.jpg"
           },
           {
             "name": "Ciudad Paleta Torley",
-            "address": "Centro",
+            "address": "Centro esquina 5 de febrero",
             "whatsapp": "527473322221",
             "img": "assets/puntos/punto-ometepec-1778112670876.jpg"
           }
@@ -391,8 +397,8 @@
       },
       {
         "emoji": "📍",
-        "name": "Tecpan",
-        "desc": "Plaza Activa",
+        "name": "TECPAN",
+        "desc": "PLAZA ACTIVA",
         "featured": false,
         "img": "assets/ciudades/tecpan-1778168912044.jpg",
         "puntos": [
@@ -401,6 +407,21 @@
             "address": "Gaby",
             "whatsapp": "527421103436",
             "img": "assets/puntos/punto-tecpan-1778169689854.jpg"
+          }
+        ]
+      },
+      {
+        "emoji": "📍",
+        "name": "IXTACUIXTLA TLAX",
+        "desc": "PLAZA ACTIVA",
+        "featured": false,
+        "img": "assets/ciudades/ixtacuixtla-tlax-1778172617881.jpg",
+        "puntos": [
+          {
+            "name": "Ciudad Paleta Ixtacuixtla",
+            "address": "Av. Morelos 8 Col. Centro",
+            "whatsapp": "524191297428",
+            "img": "assets/puntos/punto-ixtacuixtla-tlax-1778172625110.jpg"
           }
         ]
       }
