@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Usuarios – Ciudad Paleta</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pk:#db2777;--pk2:#9d174d;--pk3:#fce7f3;--tl:#0d9488;--tl2:#0f766e;--yw:#fbbf24;}
+body{font-family:'Nunito',sans-serif;background:#f9fafb;min-height:100vh;}
+
+.header{background:linear-gradient(90deg,var(--pk2),var(--tl));padding:14px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(0,0,0,.18);}
+.header h1{font-family:'Fredoka One',cursive;color:white;font-size:1.3rem;flex:1;}
+.back-btn{color:white;text-decoration:none;font-weight:800;font-size:.85rem;background:rgba(255,255,255,.2);padding:7px 14px;border-radius:20px;}
+
+.main{max-width:600px;margin:0 auto;padding:20px 16px 80px;}
+
+/* AUTH */
+.auth-card{background:white;border-radius:18px;box-shadow:0 4px 24px rgba(219,39,119,.15);padding:28px 24px;margin-bottom:16px;text-align:center;}
+.auth-card h2{font-family:'Fredoka One',cursive;color:var(--pk2);font-size:1.4rem;margin-bottom:6px;}
+.auth-card p{color:#6b7280;font-size:.88rem;margin-bottom:20px;}
+.field{margin-bottom:12px;text-align:left;}
+.field label{display:block;font-size:.8rem;font-weight:700;color:var(--pk2);margin-bottom:4px;}
+.field input{width:100%;padding:10px 13px;border:2px solid var(--pk3);border-radius:12px;font-family:'Nunito',sans-serif;font-size:.92rem;}
+.field input:focus{outline:none;border-color:var(--pk);}
+.pbtn{width:100%;padding:13px;background:var(--pk);color:white;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;transition:all .2s;margin-top:4px;}
+.pbtn:hover{background:var(--pk2);}
+.pbtn:disabled{opacity:.6;pointer-events:none;}
+.perror{color:#dc2626;font-size:.82rem;font-weight:700;text-align:center;margin-top:8px;min-height:18px;}
+
+/* CARDS */
+.card{background:white;border-radius:18px;box-shadow:0 4px 24px rgba(219,39,119,.1);padding:18px;margin-bottom:14px;}
+.card-title{font-family:'Fredoka One',cursive;color:var(--pk2);font-size:1.05rem;margin-bottom:12px;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat{background:white;border-radius:14px;padding:14px;text-align:center;box-shadow:0 2px 12px rgba(219,39,119,.1);}
+.stat-num{font-family:'Fredoka One',cursive;font-size:1.8rem;color:var(--pk);}
+.stat-lbl{font-size:.72rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;}
+
+/* USER ROW */
+.usr-row{padding:12px 0;border-bottom:1.5px dashed #f3f4f6;}
+.usr-row:last-child{border-bottom:none;}
+.usr-nombre{font-weight:800;font-size:.9rem;color:#111827;}
+.usr-email{font-size:.76rem;color:#6b7280;margin-top:2px;}
+.usr-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.tag{padding:2px 9px;border-radius:10px;font-size:.7rem;font-weight:800;}
+.tag-admin{background:var(--pk3);color:var(--pk);}
+.tag-emp{background:#ccfbf1;color:var(--tl2);}
+.tag-plaza{background:#e0f2fe;color:#075985;}
+.tag-perm{background:#f3f4f6;color:#6b7280;}
+.usr-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.btn{padding:6px 14px;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;border:none;transition:all .2s;}
+.btn-edit{background:var(--pk3);color:var(--pk2);}
+.btn-edit:hover{background:var(--pk);color:white;}
+.btn-baja{background:#fee2e2;color:#991b1b;}
+.btn-baja:hover{background:#dc2626;color:white;}
+.btn-react{background:#d1fae5;color:#065f46;}
+.btn-react:hover{background:#10b981;color:white;}
+.btn-add{background:var(--pk);color:white;padding:10px 20px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;border:none;width:100%;margin-bottom:12px;}
+.btn-add:hover{background:var(--pk2);}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;padding:16px;}
+.modal-bg.open{display:flex;}
+.modal-box{background:white;border-radius:20px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.modal-title{font-family:'Fredoka One',cursive;color:var(--pk2);font-size:1.2rem;margin-bottom:14px;}
+.modal-note{font-size:.8rem;color:#6b7280;margin-bottom:14px;background:#f9fafb;padding:10px 12px;border-radius:10px;line-height:1.6;}
+.form-group{margin-bottom:12px;}
+.form-group label{display:block;font-size:.8rem;font-weight:700;color:var(--pk2);margin-bottom:4px;}
+.form-group input,.form-group select{width:100%;padding:10px 13px;border:2px solid var(--pk3);border-radius:12px;font-family:'Nunito',sans-serif;font-size:.92rem;}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--pk);}
+.perm-grid{display:flex;flex-direction:column;gap:7px;margin-top:6px;}
+.perm-item{display:flex;align-items:center;gap:8px;font-size:.84rem;cursor:pointer;}
+.modal-btns{display:flex;gap:8px;margin-top:16px;}
+.modal-btn-p{flex:1;padding:12px;background:var(--pk);color:white;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;cursor:pointer;}
+.modal-btn-p:hover{background:var(--pk2);}
+.modal-btn-g{flex:1;padding:12px;background:#f3f4f6;color:#374151;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;}
+
+.baja-section{opacity:.65;}
+.empty{text-align:center;padding:24px;color:#9ca3af;font-size:.85rem;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:white;padding:10px 22px;border-radius:50px;font-weight:700;font-size:.88rem;z-index:500;display:none;}
+.toast.show{display:block;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="/ciudad-paleta/" class="back-btn">← Sistema</a>
+  <h1>🔐 Gestión de Usuarios</h1>
+  <button onclick="cerrarSesion()" style="background:rgba(255,255,255,.15);color:white;border:none;padding:7px 14px;border-radius:20px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;">Salir 🚪</button>
+</div>
+
+<!-- AUTH -->
+<div class="main">
+  <div class="auth-card" id="view-auth">
+    <div style="font-size:2.5rem;margin-bottom:10px;">🔐</div>
+    <h2>Ciudad Paleta</h2>
+    <p>Solo administradores pueden acceder</p>
+    <div class="field"><label>Correo</label><input type="email" id="auth-email" placeholder="correo@ejemplo.com" autocomplete="email"></div>
+    <div class="field"><label>Contraseña</label><input type="password" id="auth-pass" placeholder="••••••••" onkeypress="if(event.key==='Enter')doAuth()"></div>
+    <button class="pbtn" id="auth-btn" onclick="doAuth()">Iniciar Sesión</button>
+    <div class="perror" id="auth-error"></div>
+  </div>
+
+  <!-- PANEL -->
+  <div id="view-panel" style="display:none;">
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="st-admins">0</div><div class="stat-lbl">👑 Admins</div></div>
+      <div class="stat"><div class="stat-num" id="st-emps">0</div><div class="stat-lbl">👤 Empleados</div></div>
+      <div class="stat"><div class="stat-num" id="st-total">0</div><div class="stat-lbl">Total activos</div></div>
+    </div>
+
+    <!-- Activos -->
+    <div class="card">
+      <div class="card-title">Usuarios Activos</div>
+      <button class="btn-add" onclick="abrirNuevo()">➕ Nuevo Usuario</button>
+      <div id="lista-activos"></div>
+    </div>
+
+    <!-- Bajas -->
+    <div class="card baja-section">
+      <div class="card-title" style="color:#9ca3af;">Dados de Baja</div>
+      <div id="lista-bajas"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL NUEVO/EDITAR -->
+<div class="modal-bg" id="modal-usr">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-usr-title">➕ Nuevo Usuario</div>
+    <div class="modal-note">
+      Primero crea el usuario en <strong>Firebase Console → Authentication → Users</strong>, 
+      copia el UID y pégalo aquí. La contraseña la configuras ahí mismo.
+    </div>
+    <div class="form-group"><label>Nombre completo *</label><input type="text" id="f-nombre" placeholder="Ej: María González"></div>
+    <div class="form-group"><label>Correo *</label><input type="email" id="f-email" placeholder="correo@ejemplo.com"></div>
+    <div class="form-group" id="wrap-uid"><label>UID de Firebase Auth *</label><input type="text" id="f-uid" placeholder="Pega aquí el UID"></div>
+    <div class="form-group">
+      <label>Rol *</label>
+      <select id="f-rol" onchange="togglePlaza()">
+        <option value="admin">👑 Administrador — acceso total</option>
+        <option value="empleado">👤 Empleado — acceso limitado</option>
+      </select>
+    </div>
+    <div class="form-group" id="wrap-plaza" style="display:none;">
+      <label>Plaza restringida</label>
+      <select id="f-plaza">
+        <option value="">Sin restricción</option>
+        <option value="puebla">🏙️ Solo Puebla</option>
+        <option value="acapulco">🌊 Solo Acapulco</option>
+      </select>
+    </div>
+    <div id="wrap-permisos" style="display:none;">
+      <label style="font-size:.8rem;font-weight:700;color:var(--pk2);display:block;margin-bottom:8px;">Permisos del empleado</label>
+      <div class="perm-grid">
+        <label class="perm-item"><input type="checkbox" id="p-pedidos" checked> Ver y capturar pedidos</label>
+        <label class="perm-item"><input type="checkbox" id="p-inventario" checked> Ver y modificar inventario</label>
+        <label class="perm-item"><input type="checkbox" id="p-catalogo"> Ver catálogo de sabores</label>
+        <label class="perm-item"><input type="checkbox" id="p-reportes"> Ver reportes</label>
+        <label class="perm-item"><input type="checkbox" id="p-produccion"> Ver producción</label>
+      </div>
+    </div>
+    <input type="hidden" id="f-edit-uid">
+    <div class="perror" id="modal-error"></div>
+    <div class="modal-btns">
+      <button class="modal-btn-p" onclick="guardarUsuario()">💾 Guardar</button>
+      <button class="modal-btn-g" onclick="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_UID = 'rutKf8KeZsYmHkVuVPPkLfTGjvy1';
+const CFG = {
+  apiKey:            "AIzaSyBhVXmBy1G_Ce76Q02Jg9AVPnUuRIlb-94",
+  authDomain:        "ciudad-paleta.firebaseapp.com",
+  databaseURL:       "https://ciudad-paleta-default-rtdb.firebaseio.com",
+  projectId:         "ciudad-paleta",
+  storageBucket:     "ciudad-paleta.firebasestorage.app",
+  messagingSenderId: "1064653839055",
+  appId:             "1:1064653839055:web:9f919d806dcad234bdf5ba"
+};
+
+firebase.initializeApp(CFG);
+var db   = firebase.database();
+var auth = firebase.auth();
+var currentUser = null;
+
+// ===== AUTH =====
+auth.onAuthStateChanged(async function(user){
+  if(!user){ showAuth(); return; }
+  // Verify admin
+  const snap = await db.ref('usuarios/'+user.uid).once('value');
+  const ud = snap.val()||{};
+  var tieneAcceso = ud.rol === 'admin' && (ud.sistema === 'gestion' || ud.sistema === 'ambos');
+  if(!tieneAcceso){ 
+    await auth.signOut(); 
+    showErr('⚠️ Solo administradores del sistema pueden acceder'); 
+    return; 
+  }
+  currentUser = user;
+  document.getElementById('view-auth').style.display='none';
+  document.getElementById('view-panel').style.display='block';
+  cargar();
+});
+
+function showAuth(){
+  document.getElementById('view-auth').style.display='block';
+  document.getElementById('view-panel').style.display='none';
+}
+function showErr(msg){
+  var el=document.getElementById('auth-error'); if(el) el.textContent=msg;
+  var btn=document.getElementById('auth-btn'); if(btn){btn.disabled=false;btn.textContent='Iniciar Sesión';}
+}
+
+async function doAuth(){
+  var email=document.getElementById('auth-email').value.trim();
+  var pass=document.getElementById('auth-pass').value;
+  var btn=document.getElementById('auth-btn');
+  if(!email||!pass){showErr('⚠️ Ingresa correo y contraseña');return;}
+  btn.disabled=true; btn.textContent='Verificando…';
+  document.getElementById('auth-error').textContent='';
+  try{ await auth.signInWithEmailAndPassword(email,pass); }
+  catch(e){
+    var m={'auth/user-not-found':'❌ Usuario no encontrado','auth/wrong-password':'❌ Contraseña incorrecta','auth/invalid-credential':'❌ Credenciales incorrectas'};
+    showErr(m[e.code]||'❌ '+e.message);
+  }
+}
+
+async function cerrarSesion(){
+  await auth.signOut(); currentUser=null; showAuth();
+}
+
+// ===== CARGAR USUARIOS =====
+async function cargar(){
+  const snap = await db.ref('usuarios').once('value');
+  const data = snap.val()||{};
+  const todos = Object.entries(data);
+  const esSistema = ([,u]) => (u.rol==='admin' || u.rol==='empleado') && (u.sistema==='gestion' || u.sistema==='ambos' || !u.sistema);
+  const activos = todos.filter(e => esSistema(e) && e[1].activo!==false);
+  const bajas   = todos.filter(e => esSistema(e) && e[1].activo===false);
+
+  // Stats
+  document.getElementById('st-admins').textContent = activos.filter(([,u])=>u.rol==='admin').length;
+  document.getElementById('st-emps').textContent   = activos.filter(([,u])=>u.rol==='empleado').length;
+  document.getElementById('st-total').textContent  = activos.length;
+
+  // Activos
+  var listA = document.getElementById('lista-activos');
+  listA.innerHTML = activos.length ? activos.map(function(e){ return renderRow(e, false); }).join('') 
+    : '<div class="empty">Sin usuarios activos</div>';
+
+  // Bajas
+  var listB = document.getElementById('lista-bajas');
+  listB.innerHTML = bajas.length ? bajas.map(function(e){ return renderRow(e, true); }).join('')
+    : '<div class="empty">Sin usuarios dados de baja</div>';
+}
+
+function renderRow(entry, esBaja){
+  var uid = entry[0], u = entry[1];
+  var esYo = uid===currentUser?.uid;
+  var perms = u.permisos||{};
+  var permList = Object.entries(perms).filter(function(e){return e[1];}).map(function(e){return e[0];});
+  var html = '<div class="usr-row">';
+  html += '<div class="usr-nombre">'+(u.nombre||'Sin nombre')+(esYo?' ⭐':'')+'</div>';
+  html += '<div class="usr-email">'+u.email+'</div>';
+  html += '<div class="usr-tags">';
+  html += '<span class="tag '+(u.rol==='admin'?'tag-admin':'tag-emp')+'">'+(u.rol==='admin'?'👑 Admin':'👤 Empleado')+'</span>';
+  if(u.plazaRestricta) html += '<span class="tag tag-plaza">📍 '+u.plazaRestricta+'</span>';
+  if(permList.length) html += '<span class="tag tag-perm">'+permList.join(', ')+'</span>';
+  html += '</div>';
+  if(!esYo){
+    html += '<div class="usr-actions">';
+    if(!esBaja){
+      html += '<button class="btn btn-edit" onclick="abrirEditar(\'' + uid + '\')">✏️ Editar</button>';
+      html += '<button class="btn btn-baja" onclick="darBaja(\'' + uid + '\', \'' + u.nombre + '\')">🚫 Dar de baja</button>';
+    } else {
+      html += '<button class="btn btn-react" onclick="reactivar(\'' + uid + '\', \'' + u.nombre + '\')">↩️ Reactivar</button>';
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+// ===== MODAL =====
+function togglePlaza(){
+  var rol = document.getElementById('f-rol').value;
+  document.getElementById('wrap-plaza').style.display   = rol==='empleado'?'block':'none';
+  document.getElementById('wrap-permisos').style.display = rol==='empleado'?'block':'none';
+}
+
+function abrirNuevo(){
+  document.getElementById('modal-usr-title').textContent='➕ Nuevo Usuario';
+  document.getElementById('f-edit-uid').value='';
+  document.getElementById('f-nombre').value='';
+  document.getElementById('f-email').value='';
+  document.getElementById('f-uid').value='';
+  document.getElementById('f-uid').disabled=false;
+  document.getElementById('wrap-uid').style.display='block';
+  document.getElementById('f-rol').value='empleado';
+  document.getElementById('f-plaza').value='';
+  document.getElementById('p-pedidos').checked=true;
+  document.getElementById('p-inventario').checked=true;
+  document.getElementById('p-catalogo').checked=false;
+  document.getElementById('p-reportes').checked=false;
+  document.getElementById('p-produccion').checked=false;
+  document.getElementById('modal-error').textContent='';
+  togglePlaza();
+  document.getElementById('modal-usr').classList.add('open');
+}
+
+async function abrirEditar(uid){
+  const snap = await db.ref('usuarios/'+uid).once('value');
+  const u = snap.val()||{};
+  document.getElementById('modal-usr-title').textContent='✏️ Editar Usuario';
+  document.getElementById('f-edit-uid').value=uid;
+  document.getElementById('f-nombre').value=u.nombre||'';
+  document.getElementById('f-email').value=u.email||'';
+  document.getElementById('f-uid').value=uid;
+  document.getElementById('f-uid').disabled=true;
+  document.getElementById('wrap-uid').style.display='none';
+  document.getElementById('f-rol').value=u.rol||'empleado';
+  document.getElementById('f-plaza').value=u.plazaRestricta||'';
+  var p=u.permisos||{};
+  document.getElementById('p-pedidos').checked=p.pedidos!==false;
+  document.getElementById('p-inventario').checked=p.inventario!==false;
+  document.getElementById('p-catalogo').checked=p.catalogo===true;
+  document.getElementById('p-reportes').checked=p.reportes===true;
+  document.getElementById('p-produccion').checked=p.produccion===true;
+  document.getElementById('modal-error').textContent='';
+  togglePlaza();
+  document.getElementById('modal-usr').classList.add('open');
+}
+
+async function guardarUsuario(){
+  var editUid = document.getElementById('f-edit-uid').value;
+  var uid     = editUid || document.getElementById('f-uid').value.trim();
+  var nombre  = document.getElementById('f-nombre').value.trim();
+  var email   = document.getElementById('f-email').value.trim();
+  var rol     = document.getElementById('f-rol').value;
+  var plazaR  = document.getElementById('f-plaza').value||null;
+  var errEl   = document.getElementById('modal-error');
+  if(!uid||!nombre||!email){ errEl.textContent='⚠️ Completa nombre, correo y UID'; return; }
+  var data = {nombre:nombre, email:email, rol:rol, sistema:'gestion', activo:true};
+  if(plazaR) data.plazaRestricta=plazaR;
+  if(rol==='empleado'){
+    data.permisos = {
+      pedidos:    document.getElementById('p-pedidos').checked,
+      inventario: document.getElementById('p-inventario').checked,
+      catalogo:   document.getElementById('p-catalogo').checked,
+      reportes:   document.getElementById('p-reportes').checked,
+      produccion: document.getElementById('p-produccion').checked,
+    };
+  }
+  try{
+    await db.ref('usuarios/'+uid).update(data);
+    cerrarModal();
+    document.getElementById('f-uid').disabled=false;
+    showToast('✅ Usuario guardado');
+    cargar();
+  }catch(e){ errEl.textContent='❌ '+e.message; }
+}
+
+function darBaja(uid, nombre){
+  if(!confirm('¿Dar de baja a '+nombre+'?\nNo podrá acceder al sistema.')) return;
+  db.ref('usuarios/'+uid+'/activo').set(false).then(function(){
+    showToast('✅ Usuario dado de baja'); cargar();
+  });
+}
+
+function reactivar(uid, nombre){
+  if(!confirm('¿Reactivar a '+nombre+'?')) return;
+  db.ref('usuarios/'+uid+'/activo').set(true).then(function(){
+    showToast('✅ Usuario reactivado'); cargar();
+  });
+}
+
+function cerrarModal(){
+  document.getElementById('modal-usr').classList.remove('open');
+}
+document.getElementById('modal-usr').addEventListener('click',function(e){
+  if(e.target===this) cerrarModal();
+});
+
+function showToast(msg){
+  var el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},2500);
+}
+</script>
+</body>
+</html>
