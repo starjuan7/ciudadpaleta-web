@@ -316,6 +316,12 @@
             "address": "Rosy Alexia",
             "whatsapp": "527442217289",
             "img": "assets/puntos/colosio-acapulco-1778112512315.jpg"
+          },
+          {
+            "name": "Loma bonita la cima",
+            "address": "Itzel",
+            "whatsapp": "527441943615",
+            "img": "assets/puntos/loma-bonita-la-cima-acapulco-1778127824154.jpg"
           }
         ],
         "featured": true,
@@ -325,7 +331,14 @@
         "emoji": "📍",
         "name": "PUEBLA",
         "desc": "PLAZA ACTIVA",
-        "puntos": [],
+        "puntos": [
+          {
+            "name": "Sanctorum Cuautlancingo",
+            "address": "Mabel",
+            "whatsapp": "522212425104",
+            "img": ""
+          }
+        ],
         "featured": false,
         "img": "assets/ciudades/puebla-1778115057102.jpg"
       },
