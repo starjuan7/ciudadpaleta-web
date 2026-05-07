@@ -326,7 +326,7 @@
         "name": "PUEBLA",
         "desc": "PLAZA ACTIVA",
         "puntos": [],
-        "featured": true,
+        "featured": false,
         "img": "assets/ciudades/puebla-1778115057102.jpg"
       },
       {
