@@ -322,6 +322,18 @@
             "address": "Itzel",
             "whatsapp": "527441943615",
             "img": "assets/puntos/loma-bonita-la-cima-acapulco-1778127824154.jpg"
+          },
+          {
+            "name": "INFONAVIT Burocratas",
+            "address": "",
+            "whatsapp": "523334626102",
+            "img": "assets/puntos/punto-acapulco-1778169737574.jpg"
+          },
+          {
+            "name": "Renacimiento ruta 2",
+            "address": "Azucena",
+            "whatsapp": "527441829690",
+            "img": "assets/puntos/punto-acapulco-1778169811974.jpg"
           }
         ],
         "featured": true,
@@ -346,7 +358,14 @@
         "emoji": "📍",
         "name": "CHILPANCINGO",
         "desc": "PLAZA ACTIVA",
-        "puntos": [],
+        "puntos": [
+          {
+            "name": "Distribuidora Ciudad Paleta Chilpancingo INDECO",
+            "address": "Emmanuel",
+            "whatsapp": "527471212354",
+            "img": "assets/puntos/punto-chilpancingo-1778168797805.jpg"
+          }
+        ],
         "img": "assets/ciudades/chilpancingo-1778112852838.jpg"
       },
       {
@@ -367,6 +386,21 @@
             "address": "Centro",
             "whatsapp": "527473322221",
             "img": "assets/puntos/punto-ometepec-1778112670876.jpg"
+          }
+        ]
+      },
+      {
+        "emoji": "📍",
+        "name": "Tecpan",
+        "desc": "Plaza Activa",
+        "featured": false,
+        "img": "assets/ciudades/tecpan-1778168912044.jpg",
+        "puntos": [
+          {
+            "name": "Linda vista",
+            "address": "Gaby",
+            "whatsapp": "527421103436",
+            "img": "assets/puntos/punto-tecpan-1778169689854.jpg"
           }
         ]
       }
