@@ -259,9 +259,15 @@ auth.onAuthStateChanged(function(user){
   if(user){
     db.ref('usuarios/'+user.uid).once('value').then(function(snap){
       var d = snap.val()||{};
-      if(d.rol==='admin'||d.rol==='empleado'){
+      if(d.rol==='empleado'){
         auth.signOut();
-        showErr('⚠️ Esta cuenta es del sistema de gestión');
+        showErr('⚠️ Esta cuenta es del sistema de gestión interno');
+        return;
+      }
+      if(d.rol==='admin'){
+        // Admin del portal → redirigir al panel admin
+        cliData = Object.assign({uid:user.uid},d);
+        mostrarRedirectAdmin();
         return;
       }
       if(d.rol==='cliente_inactivo'){
@@ -304,6 +310,27 @@ function mostrarPortal(){
   renderSabores();
   renderHistorial();
   renderPremios();
+}
+function mostrarRedirectAdmin(){
+  document.getElementById('view-login').style.display='none';
+  document.getElementById('view-portal').style.display='none';
+  // Mostrar pantalla de bienvenida admin
+  var existing = document.getElementById('view-admin-redirect');
+  if(!existing){
+    var div = document.createElement('div');
+    div.id = 'view-admin-redirect';
+    div.innerHTML = `
+      <div style="text-align:center;padding:40px 16px;">
+        <div style="font-size:3.5rem;margin-bottom:12px;">👑</div>
+        <h2 style="font-family:'Fredoka One',cursive;color:#9d174d;font-size:1.4rem;margin-bottom:8px;">¡Hola, ${cliData.nombre||'Admin'}!</h2>
+        <p style="color:#6b7280;font-size:.9rem;margin-bottom:24px;">Tienes acceso de administrador al portal de clientes.</p>
+        <a href="portal-admin.html" style="display:block;width:100%;padding:14px;background:#db2777;color:white;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;text-decoration:none;text-align:center;margin-bottom:10px;">👑 Ir al Panel Admin</a>
+        <button onclick="doLogout()" style="width:100%;padding:12px;background:#f3f4f6;color:#374151;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;">Cerrar Sesión</button>
+      </div>`;
+    document.querySelector('.main').appendChild(div);
+  } else {
+    existing.style.display = 'block';
+  }
 }
 function showErr(msg){
   var el=document.getElementById('cli-error');
