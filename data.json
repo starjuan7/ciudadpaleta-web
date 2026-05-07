@@ -324,10 +324,40 @@
             "img": "assets/puntos/loma-bonita-la-cima-acapulco-1778127824154.jpg"
           },
           {
-            "name": "Renacimiento ruta 2",
-            "address": "Paleteria el costeño fresa",
+            "name": "Paleteria el costeño fresa",
+            "address": "Renacimiento Mercado de la sec. 9",
             "whatsapp": "527441829690",
-            "img": "assets/puntos/punto-acapulco-1778169811974.jpg"
+            "img": "assets/puntos/paleteria-el-costeno-fresa-acapulco-1778184061007.jpg"
+          },
+          {
+            "name": "Renacimiento",
+            "address": "Andador Rio de las garzas S1",
+            "whatsapp": "527442080673",
+            "img": "assets/puntos/punto-acapulco-1778183727318.jpg"
+          },
+          {
+            "name": "Infonavit Alta Progreso",
+            "address": "2da etapa Frente al parque de base lince",
+            "whatsapp": "527442229409",
+            "img": "assets/puntos/punto-acapulco-1778183974990.jpg"
+          },
+          {
+            "name": "Ciudad Paleta La salle",
+            "address": "Calle la loma antes del colegio",
+            "whatsapp": "527442734899",
+            "img": "assets/puntos/punto-acapulco-1778184130806.jpg"
+          },
+          {
+            "name": "Tres Palos",
+            "address": "Poblado de tres palos",
+            "whatsapp": "527442360519",
+            "img": "assets/puntos/punto-acapulco-1778184177726.jpg"
+          },
+          {
+            "name": "Marroquin",
+            "address": "Calle tiberios",
+            "whatsapp": "527442596193",
+            "img": "assets/puntos/punto-acapulco-1778184268499.jpg"
           }
         ],
         "featured": true,
@@ -370,6 +400,30 @@
             "address": "Frente a los edificios nuevos",
             "whatsapp": "523334626102",
             "img": "assets/puntos/infonavit-burocratas-chilpancingo-1778172325554.jpg"
+          },
+          {
+            "name": "Ciudad Paleta San Francisco",
+            "address": "Avenida Juan Ruiz De Alarcon 72",
+            "whatsapp": "5274710996",
+            "img": "assets/puntos/punto-chilpancingo-1778183531303.jpg"
+          },
+          {
+            "name": "Colonia Centro",
+            "address": "Francisco I Madero",
+            "whatsapp": "527472754412",
+            "img": "assets/puntos/punto-chilpancingo-1778183907843.jpg"
+          },
+          {
+            "name": "Ciudad Paleta Obrera",
+            "address": "Colonia Obrera",
+            "whatsapp": "527474732512",
+            "img": "assets/puntos/punto-chilpancingo-1778184085500.jpg"
+          },
+          {
+            "name": "Ciudad Paleta Abasolo",
+            "address": "Abasolo 77 Atras de la secundaria ASFAID",
+            "whatsapp": "527471190150",
+            "img": "assets/puntos/punto-chilpancingo-1778184215196.jpg"
           }
         ],
         "img": "assets/ciudades/chilpancingo-1778112852838.jpg"
@@ -422,6 +476,36 @@
             "address": "Av. Morelos 8 Col. Centro",
             "whatsapp": "524191297428",
             "img": "assets/puntos/punto-ixtacuixtla-tlax-1778172625110.jpg"
+          }
+        ]
+      },
+      {
+        "emoji": "📍",
+        "name": "COYUCA DE BENITEZ",
+        "desc": "PLAZA ACTIVA",
+        "featured": false,
+        "img": "assets/ciudades/coyuca-de-benitez-1778183642211.jpg",
+        "puntos": [
+          {
+            "name": "D´LICIAS",
+            "address": "Carretera Acapulco Zihuatanejo a unos metros de coppel",
+            "whatsapp": "527441681746",
+            "img": "assets/puntos/punto-coyuca-de-benitez-1778183647734.jpg"
+          }
+        ]
+      },
+      {
+        "emoji": "📍",
+        "name": "CHILAPA DE ALVAREZ",
+        "desc": "PLAZA ACTIVA",
+        "featured": false,
+        "img": "assets/ciudades/ciudad-1778183799778.jpg",
+        "puntos": [
+          {
+            "name": "LA GULA ANTOJERIA",
+            "address": "Col. Centro Costado de la catedral",
+            "whatsapp": "",
+            "img": "assets/puntos/punto-chilapa-de-alvarez-1778183818513.jpg"
           }
         ]
       }
